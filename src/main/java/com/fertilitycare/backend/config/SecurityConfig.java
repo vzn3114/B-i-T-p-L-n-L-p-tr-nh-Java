@@ -33,7 +33,8 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/users/register/**", "/login").permitAll()
-                        .requestMatchers("/api/services").hasAnyRole("ADMIN", "CUSTOMER") // 👈 THÊM QUYỀN CHO API NÀY
+                        .requestMatchers("/api/users/me").authenticated()
+                        .requestMatchers("/api/services").hasAnyRole("ADMIN", "CUSTOMER")
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider())
@@ -58,5 +59,4 @@ public class SecurityConfig {
     public AuthenticationManager authManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 }

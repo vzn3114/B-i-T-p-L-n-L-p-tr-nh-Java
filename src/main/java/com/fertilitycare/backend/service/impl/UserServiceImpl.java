@@ -41,4 +41,10 @@ public class UserServiceImpl implements UserService {
 
         return userRepo.save(user);
     }
+
+    @Override
+    public User findByUsername(String username) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByUsername'");
+    }
 }
