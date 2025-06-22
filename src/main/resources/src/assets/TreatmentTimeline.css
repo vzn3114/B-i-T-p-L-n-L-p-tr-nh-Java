@@ -1,0 +1,40 @@
+.timeline-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.08);
+  padding: 2rem 1.5rem;
+}
+.timeline-container h2 {
+  color: #1976d2;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.timeline-list {
+  list-style: none;
+  padding: 0;
+}
+.timeline-item {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+  background: #e3f2fd;
+  border-radius: 8px;
+  padding: 1rem;
+}
+.timeline-icon {
+  font-size: 2.2rem;
+  min-width: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.timeline-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.12);
+} 

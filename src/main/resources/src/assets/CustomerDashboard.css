@@ -1,0 +1,55 @@
+.customer-dashboard {
+  max-width: 700px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.08);
+  padding: 2rem 1.5rem;
+}
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.dashboard-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.12);
+}
+.dashboard-status h3 {
+  color: #1976d2;
+  margin-bottom: 1rem;
+}
+.status-card {
+  display: flex;
+  align-items: center;
+  background: #e3f2fd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+.status-icon {
+  font-size: 2rem;
+}
+.dashboard-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.dashboard-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.dashboard-btn:hover {
+  background: #1565c0;
+} 

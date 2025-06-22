@@ -1,0 +1,58 @@
+.service-management-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.08);
+  padding: 2rem 1.5rem;
+}
+.service-management-container h2 {
+  color: #1976d2;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.service-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+}
+.service-table th, .service-table td {
+  padding: 0.7rem 0.5rem;
+  text-align: center;
+}
+.service-table th {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+.service-icon-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.12);
+}
+.edit-btn, .delete-btn, .add-btn {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0 0.2rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.edit-btn:hover {
+  background: #388e3c;
+}
+.delete-btn:hover {
+  background: #d32f2f;
+}
+.add-btn {
+  margin-top: 1rem;
+  background: #1565c0;
+}
+.add-btn:hover {
+  background: #1976d2;
+} 

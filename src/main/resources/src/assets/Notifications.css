@@ -1,0 +1,35 @@
+.notifications-container {
+  max-width: 500px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.08);
+  padding: 2rem 1.5rem;
+}
+.notifications-container h2 {
+  color: #1976d2;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.notifications-list {
+  list-style: none;
+  padding: 0;
+}
+.notification-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #e3f2fd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+.notification-icon {
+  font-size: 2rem;
+}
+.notification-item.urgent {
+  background: #ffebee;
+  color: #d32f2f;
+  font-weight: bold;
+} 
