@@ -32,9 +32,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/register/**", "/login").permitAll()
-                        .requestMatchers("/api/users/me").authenticated()
-                        .requestMatchers("/api/services").hasAnyRole("ADMIN", "CUSTOMER")
+
+                        .requestMatchers("/login", "/api/users/register/**").permitAll()
+
+                        .requestMatchers("/api/users/**").hasRole("ADMIN")
+
+                        .requestMatchers("/api/services/**").hasAnyRole("ADMIN", "CUSTOMER")
+                        .requestMatchers("/api/services/**").hasAnyRole("ADMIN", "CUSTOMER", "DOCTOR")
+
+                        // Các API khác yêu cầu xác thực
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider())

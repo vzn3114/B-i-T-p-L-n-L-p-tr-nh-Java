@@ -1,13 +1,22 @@
 package com.fertilitycare.backend.controller;
 
-import com.fertilitycare.backend.security.JwtUtils;
-import jakarta.validation.constraints.NotBlank;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.*;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.fertilitycare.backend.security.JwtUtils;
+
+import jakarta.validation.constraints.NotBlank;
 
 @RestController
 @RequestMapping("/login")
@@ -30,7 +39,14 @@ public class AuthController {
                             loginRequest.getUsername(), loginRequest.getPassword()));
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
-            String token = jwtUtils.generateJwtToken(userDetails.getUsername());
+
+            // Lấy danh sách role từ authorities
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(auth -> auth.getAuthority().replace("ROLE_", ""))
+                    .toList();
+
+            // Truyền thêm roles vào token
+            String token = jwtUtils.generateJwtToken(userDetails.getUsername(), roles);
 
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (BadCredentialsException e) {

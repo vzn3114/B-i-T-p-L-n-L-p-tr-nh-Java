@@ -26,4 +26,20 @@ public class InfertilityServiceServiceImpl implements InfertilityServiceService 
     public InfertilityService create(InfertilityService service) {
         return repository.save(service);
     }
+
+    @Override
+    public InfertilityService update(Long id, InfertilityService updated) {
+        InfertilityService existing = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Service not found"));
+        existing.setName(updated.getName());
+        existing.setDescription(updated.getDescription());
+        existing.setPrice(updated.getPrice());
+        return repository.save(existing);
+    }
+
+    @Override
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
 }
