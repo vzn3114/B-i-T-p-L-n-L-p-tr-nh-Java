@@ -1,6 +1,6 @@
-import React from 'react';
-import ManagerNavbar from './Navbar';
-import '../../assets/FeedbackManagement.css';
+import React from "react";
+import ManagerNavbar from "./Navbar";
+import "../../static/assets/FeedbackManagement.css";
 
 const FeedbackManagement = () => (
   <>
@@ -22,15 +22,24 @@ const FeedbackManagement = () => (
             <td>Nguyễn Văn A</td>
             <td>IVF</td>
             <td>"Bác sĩ tận tâm, dịch vụ tốt!"</td>
-            <td><span className="status pending">Chờ duyệt</span></td>
-            <td><button className="approve-btn">Duyệt</button> <button className="delete-btn">Xóa</button></td>
+            <td>
+              <span className="status pending">Chờ duyệt</span>
+            </td>
+            <td>
+              <button className="approve-btn">Duyệt</button>{" "}
+              <button className="delete-btn">Xóa</button>
+            </td>
           </tr>
           <tr>
             <td>Trần Thị B</td>
             <td>IUI</td>
             <td>"Quy trình nhanh chóng, nhân viên thân thiện."</td>
-            <td><span className="status approved">Đã duyệt</span></td>
-            <td><button className="delete-btn">Xóa</button></td>
+            <td>
+              <span className="status approved">Đã duyệt</span>
+            </td>
+            <td>
+              <button className="delete-btn">Xóa</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -38,4 +47,4 @@ const FeedbackManagement = () => (
   </>
 );
 
-export default FeedbackManagement; 
+export default FeedbackManagement;

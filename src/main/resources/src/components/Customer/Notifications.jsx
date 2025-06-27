@@ -1,6 +1,6 @@
-import React from 'react';
-import CustomerNavbar from './Navbar';
-import '../../assets/Notifications.css';
+import React from "react";
+import CustomerNavbar from "./Navbar";
+import "../../static/assets/Notifications.css";
 
 const Notifications = () => (
   <>
@@ -25,4 +25,4 @@ const Notifications = () => (
   </>
 );
 
-export default Notifications; 
+export default Notifications;

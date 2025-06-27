@@ -1,6 +1,6 @@
-import React from 'react';
-import CustomerNavbar from './Navbar';
-import '../../assets/Profile.css';
+import React from "react";
+import CustomerNavbar from "./Navbar";
+import "../../static/assets/Profile.css";
 
 const Profile = () => (
   <>
@@ -13,7 +13,10 @@ const Profile = () => (
           <h3>Nguyễn Văn A</h3>
           <p>Email: nguyenvana@gmail.com</p>
           <p>Ngày sinh: 01/01/1990</p>
-          <p>Trạng thái: <span className="profile-status success">Đang điều trị</span></p>
+          <p>
+            Trạng thái:{" "}
+            <span className="profile-status success">Đang điều trị</span>
+          </p>
         </div>
       </div>
       <button className="profile-edit-btn">Chỉnh sửa hồ sơ</button>
@@ -21,4 +24,4 @@ const Profile = () => (
   </>
 );
 
-export default Profile; 
+export default Profile;

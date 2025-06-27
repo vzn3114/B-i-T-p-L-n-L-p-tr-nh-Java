@@ -1,6 +1,6 @@
-import React from 'react';
-import DoctorNavbar from './Navbar';
-import '../../assets/PatientList.css';
+import React from "react";
+import DoctorNavbar from "./Navbar";
+import "../../static/assets/PatientList.css";
 
 const PatientList = () => (
   <>
@@ -19,25 +19,37 @@ const PatientList = () => (
         </thead>
         <tbody>
           <tr>
-            <td><img src="/logo192.png" alt="avatar" className="patient-avatar" /></td>
+            <td>
+              <img src="/logo192.png" alt="avatar" className="patient-avatar" />
+            </td>
             <td>Nguyễn Văn A</td>
             <td>IUI</td>
             <td>10/06/2024</td>
-            <td><span className="status ongoing">Đang điều trị</span></td>
+            <td>
+              <span className="status ongoing">Đang điều trị</span>
+            </td>
           </tr>
           <tr>
-            <td><img src="/logo192.png" alt="avatar" className="patient-avatar" /></td>
+            <td>
+              <img src="/logo192.png" alt="avatar" className="patient-avatar" />
+            </td>
             <td>Trần Thị B</td>
             <td>IVF</td>
             <td>12/06/2024</td>
-            <td><span className="status success">Thành công</span></td>
+            <td>
+              <span className="status success">Thành công</span>
+            </td>
           </tr>
           <tr>
-            <td><img src="/logo192.png" alt="avatar" className="patient-avatar" /></td>
+            <td>
+              <img src="/logo192.png" alt="avatar" className="patient-avatar" />
+            </td>
             <td>Lê Văn C</td>
             <td>IVF</td>
             <td>13/06/2024</td>
-            <td><span className="status failed">Thất bại</span></td>
+            <td>
+              <span className="status failed">Thất bại</span>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -45,4 +57,4 @@ const PatientList = () => (
   </>
 );
 
-export default PatientList; 
+export default PatientList;

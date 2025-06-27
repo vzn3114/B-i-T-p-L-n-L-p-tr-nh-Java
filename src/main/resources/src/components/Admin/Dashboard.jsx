@@ -1,6 +1,6 @@
-import React from 'react';
-import AdminNavbar from './Navbar';
-import '../../assets/AdminDashboard.css';
+import React from "react";
+import AdminNavbar from "./Navbar";
+import "../../static/assets/AdminDashboard.css";
 
 const AdminDashboard = () => (
   <>
@@ -48,4 +48,4 @@ const AdminDashboard = () => (
   </>
 );
 
-export default AdminDashboard; 
+export default AdminDashboard;

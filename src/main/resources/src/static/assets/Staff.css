@@ -1,0 +1,80 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f8ff;
+}
+
+.staff-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.staff-intro {
+  margin-bottom: 2rem;
+}
+
+.staff-intro h2 {
+  font-size: 32px;
+  color: #2b6cb0;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.staff-intro p {
+  font-size: 18px;
+  color: #444;
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.staffs-preview {
+  margin-bottom: 2rem;
+}
+
+.staffs-list {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.staff-card {
+  background: #fff;
+  border: 1px solid #bbdefb;
+  border-radius: 8px;
+  padding: 1rem;
+  flex: 1 1 200px;
+  min-width: 200px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.05);
+}
+
+.staff-card h3 {
+  color: #1976d2;
+  margin-bottom: 10px;
+}
+
+.staff-card p {
+  color: #444;
+  line-height: 1.5;
+}
+
+.staff-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.commitment-preview ul {
+  padding-left: 1.2rem;
+}
+
+.commitment-preview li {
+  margin-bottom: 0.5rem;
+}
+
+.commitment-preview a {
+  color: #1976d2;
+  text-decoration: underline;
+}

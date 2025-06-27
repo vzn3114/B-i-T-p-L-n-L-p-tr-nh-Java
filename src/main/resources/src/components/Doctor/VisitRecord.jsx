@@ -1,6 +1,6 @@
-import React from 'react';
-import DoctorNavbar from './Navbar';
-import '../../assets/VisitRecord.css';
+import React from "react";
+import DoctorNavbar from "./Navbar";
+import "../../static/assets/VisitRecord.css";
 
 const VisitRecord = () => (
   <>
@@ -22,4 +22,4 @@ const VisitRecord = () => (
   </>
 );
 
-export default VisitRecord; 
+export default VisitRecord;

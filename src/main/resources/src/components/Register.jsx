@@ -1,5 +1,5 @@
-import React from 'react';
-import '../assets/Register.css';
+import React from "react";
+import "../static/assets/Register.css";
 
 const Register = () => (
   <div className="register-page">
@@ -18,4 +18,4 @@ const Register = () => (
   </div>
 );
 
-export default Register; 
+export default Register;

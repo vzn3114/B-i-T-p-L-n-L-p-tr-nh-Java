@@ -1,6 +1,6 @@
-import React from 'react';
-import CustomerNavbar from './Navbar';
-import '../../assets/TreatmentTimeline.css';
+import React from "react";
+import CustomerNavbar from "./Navbar";
+import "../../static/assets/TreatmentTimeline.css";
 
 const TreatmentTimeline = () => (
   <>
@@ -30,7 +30,13 @@ const TreatmentTimeline = () => (
           </div>
         </li>
         <li className="timeline-item">
-          <span className="timeline-icon"><img src="/logo192.png" alt="Fertilization" className="timeline-img" /></span>
+          <span className="timeline-icon">
+            <img
+              src="/logo192.png"
+              alt="Fertilization"
+              className="timeline-img"
+            />
+          </span>
           <div>
             <strong>Ngày thụ tinh</strong>
             <p>Dự kiến: 18/06/2024</p>
@@ -41,4 +47,4 @@ const TreatmentTimeline = () => (
   </>
 );
 
-export default TreatmentTimeline; 
+export default TreatmentTimeline;

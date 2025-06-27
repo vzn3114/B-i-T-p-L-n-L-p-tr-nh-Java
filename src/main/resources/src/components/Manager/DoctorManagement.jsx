@@ -1,6 +1,6 @@
-import React from 'react';
-import ManagerNavbar from './Navbar';
-import '../../assets/DoctorManagement.css';
+import React from "react";
+import ManagerNavbar from "./Navbar";
+import "../../static/assets/DoctorManagement.css";
 
 const DoctorManagement = () => (
   <>
@@ -20,20 +20,30 @@ const DoctorManagement = () => (
         </thead>
         <tbody>
           <tr>
-            <td><img src="/logo192.png" alt="avatar" className="doctor-avatar" /></td>
+            <td>
+              <img src="/logo192.png" alt="avatar" className="doctor-avatar" />
+            </td>
             <td>BS. Trần Văn B</td>
             <td>Hiếm muộn, IVF</td>
             <td>Tiến sĩ Y học</td>
             <td>Thứ 2-6, 8:00-17:00</td>
-            <td><button className="edit-btn">Sửa</button> <button className="delete-btn">Xóa</button></td>
+            <td>
+              <button className="edit-btn">Sửa</button>{" "}
+              <button className="delete-btn">Xóa</button>
+            </td>
           </tr>
           <tr>
-            <td><img src="/logo192.png" alt="avatar" className="doctor-avatar" /></td>
+            <td>
+              <img src="/logo192.png" alt="avatar" className="doctor-avatar" />
+            </td>
             <td>BS. Nguyễn Thị C</td>
             <td>IUI, Nội tiết</td>
             <td>Thạc sĩ Y học</td>
             <td>Thứ 3-7, 9:00-16:00</td>
-            <td><button className="edit-btn">Sửa</button> <button className="delete-btn">Xóa</button></td>
+            <td>
+              <button className="edit-btn">Sửa</button>{" "}
+              <button className="delete-btn">Xóa</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -42,4 +52,4 @@ const DoctorManagement = () => (
   </>
 );
 
-export default DoctorManagement; 
+export default DoctorManagement;

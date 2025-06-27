@@ -1,6 +1,6 @@
-import React from 'react';
-import ManagerNavbar from './Navbar';
-import '../../assets/ServiceManagement.css';
+import React from "react";
+import ManagerNavbar from "./Navbar";
+import "../../static/assets/ServiceManagement.css";
 
 const ServiceManagement = () => (
   <>
@@ -23,14 +23,22 @@ const ServiceManagement = () => (
             <td>IUI</td>
             <td>10.000.000đ</td>
             <td>Bơm tinh trùng vào buồng tử cung</td>
-            <td><button className="edit-btn">Sửa</button> <button className="delete-btn">Xóa</button></td>
+            <td>
+              <button className="edit-btn">Sửa</button>{" "}
+              <button className="delete-btn">Xóa</button>
+            </td>
           </tr>
           <tr>
-            <td><img src="/logo512.png" alt="IVF" className="service-icon-img" /></td>
+            <td>
+              <img src="/logo512.png" alt="IVF" className="service-icon-img" />
+            </td>
             <td>IVF</td>
             <td>60.000.000đ</td>
             <td>Thụ tinh trong ống nghiệm</td>
-            <td><button className="edit-btn">Sửa</button> <button className="delete-btn">Xóa</button></td>
+            <td>
+              <button className="edit-btn">Sửa</button>{" "}
+              <button className="delete-btn">Xóa</button>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -39,4 +47,4 @@ const ServiceManagement = () => (
   </>
 );
 
-export default ServiceManagement; 
+export default ServiceManagement;

@@ -1,6 +1,6 @@
-import React from 'react';
-import CustomerNavbar from './Navbar';
-import '../../assets/CustomerDashboard.css';
+import React from "react";
+import CustomerNavbar from "./Navbar";
+import "../../static/assets/CustomerDashboard.css";
 
 const CustomerDashboard = () => (
   <>
@@ -8,7 +8,12 @@ const CustomerDashboard = () => (
     <div className="customer-dashboard">
       <div className="dashboard-header">
         <img src="/logo192.png" alt="avatar" className="dashboard-avatar" />
-        <h2>Xin chào, Nguyễn Văn A! <span role="img" aria-label="wave">👋</span></h2>
+        <h2>
+          Xin chào, Nguyễn Văn A!{" "}
+          <span role="img" aria-label="wave">
+            👋
+          </span>
+        </h2>
         <p>Chúc bạn một ngày tốt lành và điều trị thành công!</p>
       </div>
       <div className="dashboard-status">
@@ -16,7 +21,8 @@ const CustomerDashboard = () => (
         <div className="status-card">
           <span className="status-icon">🩺</span>
           <div>
-            <strong>Đang điều trị:</strong> IVF - Giai đoạn chuyển phôi<br/>
+            <strong>Đang điều trị:</strong> IVF - Giai đoạn chuyển phôi
+            <br />
             <small>Ngày bắt đầu: 10/06/2024</small>
           </div>
         </div>
@@ -36,4 +42,4 @@ const CustomerDashboard = () => (
   </>
 );
 
-export default CustomerDashboard; 
+export default CustomerDashboard;

@@ -1,5 +1,5 @@
-import React from 'react';
-import '../assets/Login.css';
+import React from "react";
+import "../static/assets/Login.css";
 
 const Login = () => (
   <div className="login-page">
@@ -14,4 +14,4 @@ const Login = () => (
   </div>
 );
 
-export default Login; 
+export default Login;
