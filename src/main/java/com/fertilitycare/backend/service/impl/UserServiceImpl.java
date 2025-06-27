@@ -1,6 +1,7 @@
 package com.fertilitycare.backend.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,4 +48,18 @@ public class UserServiceImpl implements UserService {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'findByUsername'");
     }
+    @Override
+public List<User> getAllUsers() {
+    return userRepo.findAll();
+}
+
+@Override
+public void deleteUserById(Long id) {
+    userRepo.deleteById(id);
+}
+
+@Override
+public boolean existsById(Long id) {
+    return userRepo.existsById(id);
+}
 }
