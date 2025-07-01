@@ -45,21 +45,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        // TODO Auto-generated method stub
+
         throw new UnsupportedOperationException("Unimplemented method 'findByUsername'");
     }
+
     @Override
-public List<User> getAllUsers() {
-    return userRepo.findAll();
-}
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
+    }
 
-@Override
-public void deleteUserById(Long id) {
-    userRepo.deleteById(id);
-}
+    @Override
+    public void deleteUserById(Long id) {
+        userRepo.deleteById(id);
+    }
 
-@Override
-public boolean existsById(Long id) {
-    return userRepo.existsById(id);
-}
+    @Override
+    public boolean existsById(Long id) {
+        return userRepo.existsById(id);
+    }
 }

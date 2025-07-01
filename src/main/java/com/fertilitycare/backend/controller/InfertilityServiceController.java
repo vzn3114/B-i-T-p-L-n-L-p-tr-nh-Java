@@ -28,24 +28,28 @@ public class InfertilityServiceController {
         this.service = service;
     }
 
+    // Cho phép ADMIN, CUSTOMER, DOCTOR xem danh sách dịch vụ
     @GetMapping
     @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'DOCTOR')")
     public List<InfertilityService> getAllServices() {
         return service.getAll();
     }
 
+    // Chỉ ADMIN được phép tạo dịch vụ mới
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public InfertilityService createService(@RequestBody InfertilityService request) {
         return service.create(request);
     }
 
+    // Chỉ ADMIN được phép cập nhật dịch vụ
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<InfertilityService> update(@PathVariable Long id, @RequestBody InfertilityService updated) {
         return ResponseEntity.ok(service.update(id, updated));
     }
 
+    // Chỉ ADMIN được phép xóa dịch vụ
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> delete(@PathVariable Long id) {

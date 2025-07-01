@@ -30,31 +30,45 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
             HttpServletResponse response,
-            FilterChain filterChain)
-            throws ServletException, IOException {
-
+            FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader("Authorization");
+        final String token;
+        final String username;
 
-        String username = null;
-        String token = null;
-
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7);
-            username = jwtUtils.getUsernameFromJwtToken(token);
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            filterChain.doFilter(request, response);
+            return;
         }
+
+        token = authHeader.substring(7);
+
+        if (!jwtUtils.validateJwtToken(token)) {
+            System.out.println("⚠️ JWT Token không hợp lệ");
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        username = jwtUtils.getUsernameFromJwtToken(token);
+        System.out.println("✅ JWT hợp lệ, username: " + username);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            System.out.println("🔐 Đã load userDetails, roles: " + userDetails.getAuthorities());
 
-            if (jwtUtils.validateJwtToken(token)) {
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(userDetails, null,
-                        userDetails.getAuthorities());
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                    userDetails,
+                    null,
+                    userDetails.getAuthorities());
 
-                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(auth);
-            }
+            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+            SecurityContextHolder.getContext().setAuthentication(authToken);
+            System.out.println(">> [JwtFilter] Username from token: " + username);
+            System.out.println(">> [JwtFilter] Authorities from DB: " + userDetails.getAuthorities());
+            System.out.println(">> [JwtFilter] Authorities: " + userDetails.getAuthorities());
+
         }
 
         filterChain.doFilter(request, response);
     }
+
 }

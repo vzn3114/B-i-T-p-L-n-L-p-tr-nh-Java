@@ -1,3 +1,4 @@
+
 package com.fertilitycare.backend.controller;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public class UserController {
         return user.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<User> getAllUsers() {

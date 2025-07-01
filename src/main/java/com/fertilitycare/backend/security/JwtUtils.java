@@ -16,7 +16,8 @@ import io.jsonwebtoken.security.Keys;
 @Component
 public class JwtUtils {
 
-    private final String jwtSecret = "THIS_IS_A_VERY_SECRET_KEY_12345678901234567890"; // 256-bit key
+    private final String jwtSecret = "THIS_IS_A_VERY_SECRET_KEY_12345678901234567890";
+
     private final long jwtExpirationMs = 86400000; // 1 day
 
     private Key getSigningKey() {
@@ -43,6 +44,7 @@ public class JwtUtils {
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+
     }
 
     public List<String> getRolesFromJwtToken(String token) {

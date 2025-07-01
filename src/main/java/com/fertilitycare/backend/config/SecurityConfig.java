@@ -2,6 +2,7 @@ package com.fertilitycare.backend.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -17,7 +18,7 @@ import com.fertilitycare.backend.security.JwtFilter;
 import com.fertilitycare.backend.service.impl.CustomUserDetailsService;
 
 @Configuration
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
@@ -32,15 +33,20 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-
                         .requestMatchers("/login", "/api/users/register/**").permitAll()
 
+                        // ADMIN quản lý user
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
 
-                        .requestMatchers("/api/services/**").hasAnyRole("ADMIN", "CUSTOMER")
-                        .requestMatchers("/api/services/**").hasAnyRole("ADMIN", "CUSTOMER", "DOCTOR")
+                        // Xem danh sách dịch vụ: ai cũng được xem
+                        .requestMatchers(HttpMethod.GET, "/api/services/**")
+                        .hasAnyRole("ADMIN", "CUSTOMER", "DOCTOR")
 
-                        // Các API khác yêu cầu xác thực
+                        // Các method POST, PUT, DELETE chỉ cho ADMIN
+                        .requestMatchers(HttpMethod.POST, "/api/services/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/services/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/services/**").hasRole("ADMIN")
+
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider())
