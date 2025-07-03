@@ -30,7 +30,7 @@ const Navbar = () => {
           onMouseEnter={handleAboutMouseEnter}
           onMouseLeave={handleAboutMouseLeave}
         >
-          <Link to="/introduction" className="dropdown-toggle">
+          <Link to="/introduction/visionmission" className="dropdown-toggle">
             Giới thiệu
             <span className="dropdown-arrow">▼</span>
           </Link>
