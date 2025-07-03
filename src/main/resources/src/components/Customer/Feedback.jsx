@@ -1,10 +1,9 @@
+/* eslint-disable react/jsx-no-undef */
 import React from "react";
-import CustomerNavbar from "./Navbar";
 import "../../static/assets/Feedback.css";
 
 const Feedback = () => (
   <>
-    <CustomerNavbar />
     <div className="feedback-container">
       <h2>Gửi đánh giá dịch vụ & bác sĩ</h2>
       <form className="feedback-form">

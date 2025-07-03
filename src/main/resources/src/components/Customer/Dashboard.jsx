@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import CustomerNavbar from "./Navbar";
 import "../../static/assets/CustomerDashboard.css";
 
 const CustomerDashboard = () => {
@@ -8,7 +7,6 @@ const CustomerDashboard = () => {
 
   return (
     <>
-      <CustomerNavbar />
       <div className="customer-dashboard">
         {/* Phần header */}
         <div className="dashboard-header">

@@ -1,10 +1,8 @@
 import React from "react";
-import CustomerNavbar from "./Navbar";
 import "../../static/assets/Profile.css";
 
 const Profile = () => (
   <>
-    <CustomerNavbar />
     <div className="profile-container">
       <h2>Hồ sơ cá nhân</h2>
       <div className="profile-header">

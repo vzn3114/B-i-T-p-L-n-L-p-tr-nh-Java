@@ -1,10 +1,8 @@
 import React from "react";
-import CustomerNavbar from "./Navbar";
 import "../../static/assets/TreatmentTimeline.css";
 
 const TreatmentTimeline = () => (
   <>
-    <CustomerNavbar />
     <div className="timeline-container">
       <h2>Timeline điều trị</h2>
       <ul className="timeline-list">
