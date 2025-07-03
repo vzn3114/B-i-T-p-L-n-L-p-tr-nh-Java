@@ -30,6 +30,7 @@ import AdminDashboard from "./components/Admin/Dashboard";
 import Facilities from "./components/Introduction/Facilities";
 import VisionMission from "./components/Introduction/VisionMission";
 import Staff from "./components/Introduction/Staff";
+import Contact from "./components/Contact";
 
 const App = () => {
   return (
@@ -63,6 +64,7 @@ const App = () => {
         <Route path="/introduction/facilities" element={<Facilities />} />
         <Route path="/introduction/visionmission" element={<VisionMission />} />
         <Route path="/introduction/doctors" element={<Staff />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
     </Router>

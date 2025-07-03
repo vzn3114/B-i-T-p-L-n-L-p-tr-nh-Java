@@ -55,6 +55,7 @@ const Navbar = () => {
             </ul>
           )}
         </li>
+        <li><Link to="/contact">Liên hệ</Link></li>
         {!isLoggedIn ? (
           <>
             <li>

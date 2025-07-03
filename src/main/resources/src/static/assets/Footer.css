@@ -1,42 +1,156 @@
 .footer {
-  background: #e3f2fd;
-  padding: 2rem 0 1rem 0;
-  margin-top: 3rem;
+  background: #1976d2;
+  color: #fff;
+  font-size: 15px;
+  padding: 40px 0 0 0;
+  font-family: Arial, sans-serif;
 }
-.footer-content {
+.footer-main {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
   flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  gap: 32px;
+}
+.footer-section {
+  flex: 1 1 30%;
+  min-width: 260px;
+  margin-bottom: 30px;
+  padding: 0 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 .footer-logo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.footer-logo img {
   width: 60px;
   height: 60px;
+  margin-right: 10px;
+}
+.footer-hospital-name {
+  font-weight: bold;
+  font-size: 20px;
+  color: #fff;
+}
+.footer-hospital-desc {
+  font-size: 13px;
+  color: #bbdefb;
+}
+.footer-contact ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-contact li {
+  margin-bottom: 5px;
+}
+.footer-title {
+  font-weight: bold;
+  color: #fff;
+  margin-bottom: 10px;
+  font-size: 17px;
+  letter-spacing: 0.5px;
+}
+.footer-news-img {
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.1);
+  margin-right: 8px;
+  vertical-align: middle;
 }
-.footer-info {
-  text-align: left;
+.footer-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
-.footer-info p {
-  margin: 0.2rem 0;
+.footer-section li {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+}
+.footer-qr {
+  width: 120px;
+  height: 120px;
+  display: block;
+  margin-bottom: 8px;
+}
+.footer-form input[type="text"] {
+  width: 100%;
+  margin-bottom: 7px;
+  padding: 7px;
+  border: none;
+  border-radius: 3px;
+  background: #e3f2fd;
+  color: #222;
+}
+.footer-form label {
+  margin-right: 10px;
+  font-size: 14px;
+}
+.footer-form button {
+  width: 100%;
+  background: #fff;
   color: #1976d2;
+  border: none;
+  padding: 10px 0;
+  border-radius: 3px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 7px;
+  transition: background 0.2s, color 0.2s;
 }
-.footer-social {
-  margin: 0.5rem 0;
+.footer-form button:hover {
+  background: #bbdefb;
+  color: #0d47a1;
+}
+.footer-note {
+  font-size: 13px;
+  color: #bbdefb;
+  margin-bottom: 7px;
+}
+.footer-fanpage img {
+  border-radius: 5px;
+  margin-top: 10px;
+}
+.footer-bottom {
+  border-top: 1px solid #1565c0;
+  margin-top: 20px;
+  padding: 15px 40px 10px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  background: #1976d2;
 }
 .footer-social a {
-  margin-right: 1rem;
-  color: #1976d2;
-  font-size: 1.5rem;
+  color: #fff;
+  margin-left: 10px;
+  font-size: 22px;
   transition: color 0.2s;
 }
 .footer-social a:hover {
-  color: #1565c0;
+  color: #bbdefb;
 }
-.footer-copyright {
-  font-size: 0.95rem;
-  color: #888;
-  margin-top: 0.5rem;
+@media (max-width: 1000px) {
+  .footer-main {
+    flex-direction: column;
+    padding: 0 10px;
+    gap: 18px;
+  }
+  .footer-section {
+    min-width: 100%;
+    margin-bottom: 25px;
+    padding: 0;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+  }
 } 
