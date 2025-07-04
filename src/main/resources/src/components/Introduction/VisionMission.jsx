@@ -2,122 +2,140 @@ import React from "react";
 import "../../static/assets/Vision-Mission.css";
 
 const VisionMission = () => {
-  return (
+return (
     <div className="about-us-container">
-      <h2 className="about-us-title">VỀ CHÚNG TÔI</h2>
-
-      <div className="video-container mb-6">
-        <iframe
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="w-full aspect-video"
-          frameBorder="0"
-          src="https://www.youtube.com/watch?v=UJZmCX2Mzn8"
-          title="Trung tâm Hỗ trợ Sinh sản Hạnh Phúc Care - Giới thiệu về chúng tôi"
-        ></iframe>
+      <h2 className="section-title">VỀ CHÚNG TÔI</h2>
+      <div className="image-container">
+        <img 
+          className="main-image"
+          src="/images/doctors/content-title.jpg" 
+          alt="Trung tâm Hạnh Phúc Care - Bệnh viện khách sạn 5 sao chuyên khoa hiếm muộn" 
+        />
+      </div>
+      
+      <div className="content-section">
+        <p className="section-subtitle">SỨ MỆNH – TẦM NHÌN</p>
+        <p className="section-text">
+          Dựa trên nền tảng truyền thống, các giá trị cốt lõi của ngành Y Việt Nam từ sau đổi mới, đồng thời mong muốn mang lại cho người dân dịch vụ khám chữa hiếm muộn chất lượng cao và kỹ thuật, giải pháp phương pháp, kỹ thuật và phát triển bền vững, được hướng các dịch vụ cao cấp hiệu quả nhất người, trung tâm Hạnh Phúc Care đã được thành lập. Ngày từ khi mới bắt đầu với tiêu chuẩn đồng, trung tâm Hạnh Phúc Care đã chú trọng việc xây dựng đội ngũ chuyên gia bác sĩ giỏi về chuyên môn, nhiều kinh nghiệm, trung tâm đã quy tụ được đội ngũ chuyên gia hàng đầu từ nhiều khu vực nhiều năm kinh nghiệm, tâm huyết, nhiệt tình, hòa hợp, cơ sở vật chất khép kín, hỗ trợ toàn diện, thân thiện.
+        </p>
       </div>
 
-      <SectionItem
-        imageSrc="https://storage.googleapis.com/a1aa/image/20f3ea2b-5384-4fc8-56dd-d61736ed757b.jpg"
-        imageAlt="Group photo of medical experts in white coats standing in a hospital corridor"
-        title="SỨ MỆNH – TẦM NHÌN"
-        content="Với mong muốn mang lại niềm vui làm cha mẹ cho hàng triệu cặp vợ chồng hiếm muộn tại Việt Nam, Trung tâm Hỗ trợ Sinh sản hướng đến trở thành đơn vị dẫn đầu trong lĩnh vực điều trị vô sinh – hiếm muộn, áp dụng công nghệ hiện đại, quy trình chuẩn quốc tế và đội ngũ chuyên gia tận tâm."
-      />
+      <div className="content-section with-image">
+        <img 
+          alt="Ảnh đội ngũ chuyên gia y tế mặc áo blouse trắng chụp nhóm" 
+          className="content-image" 
+          src="/images/doctors/content-section-1.jpg" 
+        />
+        <div>
+          <p className="section-subtitle">ĐỘI NGŨ CHUYÊN GIA</p>
+          <p className="section-text small-text">
+            Các chuyên viên giỏi từ các bệnh viện từ tổ chức được tập hợp đội tạo nên các quy trình duy tu toàn diện, khoa học, hiệu quả.
+          </p>
+        </div>
+      </div>
 
-      <SectionItem
-        imageSrc="https://storage.googleapis.com/a1aa/image/bbc35c7a-c347-4e1f-a241-7ececcc8913a.jpg"
-        imageAlt="Medical experts team photo in white coats posing in hospital"
-        title="ĐỘI NGŨ CHUYÊN GIA"
-        content="Các chuyên viên giỏi từ các Bệnh viện từ tổ chức được tập hợp bởi tiêu chuẩn các quy trình duy tu toàn diện, khoa học, hiệu quả."
-      />
+      <div className="content-section with-image">
+        <img 
+          alt="Ảnh khu vực bệnh viện khách sạn 5 sao hiện đại với không gian rộng" 
+          className="content-image" 
+          src="/images/doctors/content-section-2.jpg" 
+        />
+        <div>
+          <p className="section-subtitle">BỆNH VIỆN KHÁCH SẠN 5 SAO</p>
+          <p className="section-text small-text">
+            Trung tâm được xây dựng theo mô hình bệnh viện khách sạn theo đúng tiêu chuẩn đáp ứng đầy đủ các điều kiện cho hoạt động chăm sóc khám chữa bệnh, đồng thời mang lại những trải nghiệm chất lượng cao của khách hàng về môi trường giám, cảnh quan, phòng nghỉ tồi, nhà hàng...
+          </p>
+        </div>
+      </div>
 
-      <SectionItem
-        imageSrc="https://storage.googleapis.com/a1aa/image/794eb306-2b92-42a7-717f-5f6ca9bc04bb.jpg"
-        imageAlt="Modern hospital lobby with glass walls and seating area"
-        title="BỆNH VIỆN KHÁCH SẠN 5 SAO"
-        content="Bệnh viện được xây dựng theo mô hình bệnh viện khách sạn cao cấp trong điều việc đáp ứng đầy đủ các điều kiện cho hoạt động chuyên môn khám chữa bệnh, đồng thời mang lại những trải nghiệm chất lượng cao của khách hàng về môi trường gian, cảnh quan, phòng nghỉ tồi, nhà hàng..."
-      />
+      <div className="content-section with-image">
+        <img 
+          alt="Ảnh phòng bệnh hiện đại, sạch sẽ với giường bệnh và trang thiết bị y tế" 
+          className="content-image" 
+          src="/images/doctors/content-section-3.jpg" 
+        />
+        <div>
+          <p className="section-subtitle">CƠ SỞ VẬT CHẤT – TRANG THIẾT BỊ HIỆN ĐẠI</p>
+          <p className="section-text small-text">
+            Trung tâm Hạnh Phúc Care là đơn vị hàng đầu tại Việt Nam đầu tư kim cở các trang thiết bị máy móc, phương pháp chẩn đoán và điều trị hiện đại chuẩn quốc tế. Hiểu rằng thiết bị máy móc có số lượng ít trên thế giới với nhiều cơ sở Việt Nam như:
+            <br/>
+            - Hệ thống phòng mổ đạt chuẩn Hội nghị sáng phòng mổ cho các ca phẫu thuật;
+            <br/>
+            - Hệ thống thiết bị chẩn đoán và điều trị hiếm muộn tiên tiến;
+            <br/>
+            - Hệ thống máy y phục năng lượng quang tử và thiết bị tạo trong nuôi cấy phôi phục vụ quá trình thụ tinh ống nghiệm;
+            <br/>
+            - Phòng lab đạt tiêu chuẩn sạch cấp độ cao nhất phục vụ hoạt động ngân hàng tế bào gốc, trung tâm hồi sức cấp cứu;
+            <br/>
+            - Các thiết bị phục thuật nội soi chuẩn dụng cụ y học bào thai, hệ thống robot hỗ trợ phẫu thuật ARTIS;
+            <br/>
+            - Phòng ung dung trí tuệ nhân tạo hỗ trợ hiệu quả vào chẩn đoán phát hiện sớm ung khuẩn...;
+            <br/>
+            - Hệ thống thiết bị điều dưỡng hiện đại như máy chụp cộng hưởng từ MRI 1.5 – 3 Tesla, máy chụp cắt lớp 128 dải, máy siêu âm 4D hỗ trợ hiệu quả, máy nội soi tai mũi họng công dụng có tác dụng cao, máy đo điện tim, các thiết bị xét nghiệm hiện đại;
+            <br/>
+            - Hệ thống máy xét nghiệm Cobas Pro hiện đại hàng đầu Đông Nam Á.
+          </p>
+        </div>
+      </div>
 
-      <SectionItem
-        imageSrc="https://storage.googleapis.com/a1aa/image/f2772bf1-1f4a-4af1-7258-1cdafe525f4a.jpg"
-        imageAlt="Modern hospital room with advanced medical equipment and clean design"
-        title="CƠ SỞ VẬT CHẤT – TRANG THIẾT BỊ HIỆN ĐẠI"
-        content="Bệnh viện Đa khoa Tâm Anh là đơn vị hàng đầu tại Việt Nam đầu tư kim cở các trang thiết bị máy móc, phương pháp chẩn đoán và điều trị hiện đại chuẩn quốc tế. Bệnh viện trang thiết bị máy móc có số lượng ít thiết bị giới và tiêu biểu có ở Việt Nam như:"
-        listItems={[
-          "Hệ thống nuôi cấy phôi Time-Lapse theo dõi phôi 24/7.",
-          "Máy tiêm tinh trùng vào bào tương (ICSI) hiện đại.",
+      <div className="content-section with-image">
+        <img 
+          alt="Ảnh các bác sĩ đang họp bàn trong phòng họp chuyên môn" 
+          className="content-image" 
+          src="/images/doctors/content-section-4.jpg" 
+        />
+        <div>
+          <p className="section-subtitle">QUY TRÌNH KHOA HỌC – TOÀN DIỆN</p>
+          <p className="section-text small-text">
+            Quy trình khám, điều trị được xây dựng toàn diện khoa học, giúp tiết kiệm thời gian chi phí và công sức của khách hàng, người bệnh. Dịch vụ chăm sóc khách hàng chuyên nghiệp tận tình. Hệ thống vận dụng các kênh khách hàng chuyên nghiệp trên nhiều kênh tiếp cận như trang đại diện, website, mạng xã hội...
+          </p>
+        </div>
+      </div>
 
-          "Phòng lab đạt chuẩn Class 100.",
+      <div className="content-section with-image">
+        <img 
+          alt="Ảnh bác sĩ và bệnh nhân đang sử dụng thiết bị thực tế ảo VR" 
+          className="content-image" 
+          src="/images/doctors/content-section-5.jpg" 
+        />
+        <div>
+          <p className="section-subtitle">DỊCH VỤ CAO CẤP – GIÁ THÀNH HỢP LÝ</p>
+          <p className="section-text small-text">
+            Bệnh viện hướng tới phục vụ đồng đều khách hàng, người bệnh với giá thành hợp lý, nhiều chính sách ưu đãi và chi phí, hỗ trợ trợ giúp không lãi suất cho nhiều đối tượng khách bệnh.
+            <br/>
+            Với sự đa dạng về phát triển và bệnh viện tại Hà Nội và TP. HCM, hướng tới mang người dân đi khám phải an toàn người dân thăm khám và điều trị nhiều bệnh lý mà có thể hưởng nhiều dịch vụ cao cấp không chỉ và chuyên môn mà còn là dịch vụ chăm sóc khách hàng cao tương đồng ngày tại Việt Nam.
+          </p>
+        </div>
+      </div>
 
-          "Hệ thống Laser hỗ trợ phôi thoát màng.",
+      <div className="content-section with-image">
+        <img 
+          alt="Ảnh nữ nhân viên y tế đang ngồi làm việc tại bàn trong văn phòng" 
+          className="content-image" 
+          src="/images/doctors/content-section-6.jpg" 
+        />
+        <div>
+          <p className="section-subtitle">TRÁCH NHIỆM VỚI NGƯỜI LAO ĐỘNG</p>
+          <p className="section-text small-text">
+            Trung tâm luôn trong chăm lo đời sống cán bộ nhân viên chuyên gia bác sĩ … với các chế độ chính sách cao cấp cả về vật chất và tinh thần, tạo thành môi trường làm việc lý tưởng của người lao động.
+          </p>
+        </div>
+      </div>
 
-          "Hệ thống đông – rã trứng/phôi bằng công nghệ vitrification.",
-
-          "Thiết bị sàng lọc di truyền tiền làm tổ (PGT-A, PGT-M).",
-
-          "Phòng lấy mẫu riêng tư, vô trùng, tiện nghi.",
-        ]}
-      />
-
-      <SectionItem
-        imageSrc="https://storage.googleapis.com/a1aa/image/78d39aea-7922-4a24-ee40-2ec4b0e53685.jpg"
-        imageAlt="Doctors in white coats sitting around a table discussing medical procedures"
-        title="QUY TRÌNH KHOA HỌC – TOÀN DIỆN"
-        content="Quy trình khám, điều trị được xây dựng toàn diện đến khoa học, giúp tiết kiệm thời gian chi phí và công sức của khách hàng, người bệnh. Khách hàng có thể khám chuyên khoa nhiều lần, hệ thống vận chuyển các khách hàng chuyển nghiệp tiện nhiều kênh tiếp cận như trang đặt dịch vụ, website, mạng xã hội..."
-      />
-
-      <SectionItem
-        imageSrc="https://storage.googleapis.com/a1aa/image/57d479fb-9fd3-4cfd-9e55-e443474743b5.jpg"
-        imageAlt="Medical staff assisting patient wearing VR headset for advanced diagnostics"
-        title="DỊCH VỤ CAO CẤP – GIÁ THÀNH HỢP LÝ"
-        content={[
-          "Trung tâm hướng tới phục vụ đồng đều khách hàng, người bệnh với giá thành hợp lý, nhiều chính sách ưu đãi và chi phí, hỗ trợ tiếp cận không lãi suất cho nhiều đối tượng khách bệnh.",
-          "Với sự đa dạng về phát triển với 2 trung tâm tại Hà Nội và TP. HCM, hướng tới mang người dân đi khám phải an toàn người dân thăm khám và điều trị nhiều bệnh lý mà có thể hưởng nhiều dịch vụ cao cấp không chỉ và chuyên môn mà còn là dịch vụ chăm sóc khách hàng cao tương cao ngày tại Việt Nam.",
-        ]}
-      />
-
-      <SectionItem
-        imageSrc="https://storage.googleapis.com/a1aa/image/4fcf8354-73f8-4fa9-25ab-69e4c24345ab.jpg"
-        imageAlt="Smiling female medical worker sitting at desk in hospital office"
-        title="TRÁCH NHIỆM VỚI NGƯỜI LAO ĐỘNG"
-        content="Bệnh viện luôn trong chăm lo đời sống cán bộ nhân viên chuyên gia bác sĩ … với các chế độ chính sách cao cấp cả về vật chất và tinh thần, tạo thành môi trường làm việc lý tưởng của người lao động."
-      />
-
-      <SectionItem
-        imageSrc="https://storage.googleapis.com/a1aa/image/e5bc9dd6-afd2-41f3-2c4d-ad22c5a3b42c.jpg"
-        imageAlt="Medical staff assisting elderly patient in community healthcare setting"
-        title="TRÁCH NHIỆM VỚI CỘNG ĐỒNG"
-        content="Bệnh viện luôn thực hiện tốt, có trách nhiệm với cộng đồng thông qua nhiều hoạt động từ thiện, xã hội có ý nghĩa như đồng hành với Quỹ hỗ trợ bệnh nhân ung thư 'Ngày mai tươi sáng', tổ chức phi cộp các bác sĩ bệnh học ung thư phục tật, xây dựng khuôn các cấp bệnh nhân ung thư, ủng hộ các chương trình hỗ trợ đồng bào bị bão lụt…"
-      />
+      <div className="content-section with-image">
+        <img 
+          alt="Ảnh bác sĩ và nhân viên y tế đang chăm sóc bệnh nhân trong phòng khám" 
+          className="content-image" 
+          src="/images/doctors/content-section-7.jpg" 
+        />
+        <div>
+          <p className="section-subtitle">TRÁCH NHIỆM VỚI CỘNG ĐỒNG</p>
+          <p className="section-text small-text">
+            Trung tâm luôn thực hiện tốt, có trách nhiệm với cộng đồng thông qua nhiều hoạt động từ thiện, xã hội có ý nghĩa như tổ chức các chương rinh tư vấn, khám chữa hiếm muộn cho các cặp vợ chồng có hoàn cảnh khó khăn, các chương trình khám chữa bệnh miễn phí cho người nghèo, người có hoàn cảnh khó khăn, các chương trình hỗ trợ cộng đồng trong việc nâng cao sức khỏe sinh sản, chăm sóc sức khỏe sinh sản cho người dân.
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
-
-const SectionItem = ({ imageSrc, imageAlt, title, content, listItems }) => {
-  return (
-    <div className="section-item mb-6 flex gap-4">
-      <img
-        alt={imageAlt}
-        className="section-image w-[80px] h-[60px] object-cover flex-shrink-0"
-        src={imageSrc}
-      />
-      <div className="section-content text-[9px] leading-[11px]">
-        <p className="section-title font-extrabold mb-1">{title}</p>
-        {Array.isArray(content) ? (
-          content.map((paragraph, index) => <p key={index}>{paragraph}</p>)
-        ) : (
-          <p>{content}</p>
-        )}
-        {listItems && (
-          <ul className="section-list list-disc list-inside text-[8px] leading-[10px] mt-1">
-            {listItems.map((item, index) => (
-              <li key={index}>{item}</li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </div>
-  );
-};
-
 export default VisionMission;
