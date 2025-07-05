@@ -2,6 +2,7 @@ package com.fertilitycare.backend.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,6 +20,16 @@ public class Appointment {
     private String patientName;
     private LocalDateTime appointmentTime;
     private String status;
+    @Column(length = 1000)
+    private String doctorNote;
+
+    public String getDoctorNote() {
+        return doctorNote;
+    }
+
+    public void setDoctorNote(String doctorNote) {
+        this.doctorNote = doctorNote;
+    }
 
     @ManyToOne
     @JoinColumn(name = "service_id")
@@ -28,7 +39,13 @@ public class Appointment {
     @JoinColumn(name = "user_id")
     private User customer;
 
-    // Getter & Setter cho id
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private User doctor;
+
+    public Appointment() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -37,7 +54,6 @@ public class Appointment {
         this.id = id;
     }
 
-    // Getter & Setter cho patientName
     public String getPatientName() {
         return patientName;
     }
@@ -46,7 +62,6 @@ public class Appointment {
         this.patientName = patientName;
     }
 
-    // Getter & Setter cho appointmentTime
     public LocalDateTime getAppointmentTime() {
         return appointmentTime;
     }
@@ -55,7 +70,6 @@ public class Appointment {
         this.appointmentTime = appointmentTime;
     }
 
-    // Getter & Setter cho status
     public String getStatus() {
         return status;
     }
@@ -64,7 +78,6 @@ public class Appointment {
         this.status = status;
     }
 
-    // Getter & Setter cho service
     public InfertilityService getService() {
         return service;
     }
@@ -73,12 +86,19 @@ public class Appointment {
         this.service = service;
     }
 
-    // Getter & Setter cho customer
     public User getCustomer() {
         return customer;
     }
 
     public void setCustomer(User customer) {
         this.customer = customer;
+    }
+
+    public User getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
     }
 }

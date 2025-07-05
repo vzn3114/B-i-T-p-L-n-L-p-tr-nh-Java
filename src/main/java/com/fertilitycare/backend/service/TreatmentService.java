@@ -8,10 +8,17 @@ import com.fertilitycare.backend.entity.User;
 public interface TreatmentService {
     Treatment create(Treatment treatment);
 
+    Treatment update(Long id, Treatment treatment);
+
     List<Treatment> getAll();
 
     List<Treatment> getByCustomer(User customer);
 
     List<Treatment> getByDoctor(User doctor);
 
+    Treatment getById(Long id);
+
+    List<Object[]> getStatisticsByStatus();
+
+    List<Object[]> getStatisticsByMethod();
 }
