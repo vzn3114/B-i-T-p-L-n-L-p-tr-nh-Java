@@ -19,7 +19,7 @@ const Navbar = () => {
   const handleAboutMouseLeave = () => {
     setIsAboutDropdownOpen(false);
   };
-
+  
   return (
     <nav className="navbar">
       <div className="navbar-logo">

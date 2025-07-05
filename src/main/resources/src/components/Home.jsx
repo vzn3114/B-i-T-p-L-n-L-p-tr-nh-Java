@@ -7,7 +7,7 @@ const Home = () => (
   <div className="home-container">
     {/* background */}
     <section className="hero">
-      <img src={background} alt="Hiếm Muộn Care" className="hero-img" />
+      <img src={background} alt="Hiếm Muộn Care" className="hero-img1" />
     </section>
     {/* Section services-preview */}
     <section className="services-preview">
@@ -68,7 +68,7 @@ const Home = () => (
         </div>
         <div className="service-card">
           <img
-            src="/images/doctors/bac-si.jpg"
+            src="/images/doctors/infertility.jpg"
             alt="Dịch vụ cao cấp - Giá thành hợp lý"
             className="hero-img"
           />

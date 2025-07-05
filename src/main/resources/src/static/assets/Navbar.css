@@ -100,23 +100,28 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .navbar {
-    flex-direction: column;
-    padding: 1rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
   }
 
   .navbar-links {
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-    margin-top: 1rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.8rem;
+  }
+
+  .navbar-links li {
+    white-space: nowrap;
   }
 
   .dropdown-menu {
-    position: static;
+    position: absolute;
     box-shadow: none;
-    border: none;
+    border: 1px solid #ccc;
     background: #1565c0;
     margin-left: 1rem;
+    z-index: 1001;
   }
 
   .dropdown-menu li a {

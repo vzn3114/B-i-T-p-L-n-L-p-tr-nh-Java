@@ -1,6 +1,11 @@
 //App.js
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
@@ -32,10 +37,20 @@ import VisionMission from "./components/Introduction/VisionMission";
 import Staff from "./components/Introduction/Staff";
 import Contact from "./components/Contact";
 
-const App = () => {
+import { useEffect } from "react";
+
+const Layout = () => {
+  const location = useLocation();
+
+  // Các path cần ẩn navbar
+  const hideNavbarPaths = ["/admin", "/doctor", "/manager"];
+  const shouldHideNavbar = hideNavbarPaths.some((path) =>
+    location.pathname.startsWith(path)
+  );
+
   return (
-    <Router>
-      <Navbar />
+    <>
+      {!shouldHideNavbar && <Navbar />}
       <Routes>
         {/* Guest */}
         <Route path="/" element={<Home />} />
@@ -66,8 +81,17 @@ const App = () => {
         <Route path="/introduction/doctors" element={<Staff />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
-      <Footer />
+      {!shouldHideNavbar && <Footer />}
+    </>
+  );
+};
+
+const App = () => {
+  return (
+    <Router>
+      <Layout />
     </Router>
   );
 };
+
 export default App;

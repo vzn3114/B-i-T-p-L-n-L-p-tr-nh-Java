@@ -1,12 +1,169 @@
 import React, { useState } from "react";
 import "../../static/assets/Services.css";
 import { Link } from "react-router-dom";
+import { IUIServiceData } from "../../data/IUIServiceData";
+import { IVFServiceData } from "../../data/IVFServiceData";
 
 const Services = () => {
   const [expandedService, setExpandedService] = useState(null);
 
   const toggleExpand = (serviceId) => {
     setExpandedService(expandedService === serviceId ? null : serviceId);
+  };
+
+  const ServiceCard = ({ serviceData }) => {
+    const isExpanded = expandedService === serviceData.id;
+
+    return (
+      <div className="service-detail">
+        <div className="service-header">
+          <div className="service-detail-icon">{serviceData.icon}</div>
+          <div className="service-title-section">
+            <h3>{serviceData.title}</h3>
+            <p className="service-subtitle">{serviceData.subtitle}</p>
+          </div>
+        </div>
+
+        <div className="service-summary">
+          <p>{serviceData.overview.description}</p>
+        </div>
+
+        <div className="service-highlights">
+          {serviceData.overview.keyBenefits.map((benefit, index) => (
+            <div key={index} className="highlight-item">
+              <span className="highlight-icon">✓</span>
+              <span>{benefit}</span>
+            </div>
+          ))}
+        </div>
+
+        <button
+          className="expand-btn"
+          onClick={() => toggleExpand(serviceData.id)}
+        >
+          {isExpanded ? "Thu gọn" : "Xem chi tiết"} ▼
+        </button>
+
+        {isExpanded && (
+          <div className="service-expanded">
+            {/* Phù hợp với ai */}
+            <div className="expanded-section">
+              <h4>🎯 {serviceData.details.suitableFor.title}</h4>
+              <ul>
+                {serviceData.details.suitableFor.conditions.map(
+                  (condition, index) => (
+                    <li key={index}>
+                      <strong>{condition.condition}:</strong>{" "}
+                      {condition.description}
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+
+            {/* Quy trình thực hiện */}
+            <div className="expanded-section">
+              <h4>📋 Quy trình thực hiện</h4>
+              {serviceData.id === "iui" ? (
+                <ol>
+                  {serviceData.details.process.steps.map((step, index) => (
+                    <li key={index}>
+                      <strong>{step.title}</strong>
+                      <p>{step.description}</p>
+                      {step.duration && (
+                        <small>Thời gian: {step.duration}</small>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+              ) : (
+                <div>
+                  {serviceData.details.process.phases.map(
+                    (phase, phaseIndex) => (
+                      <div key={phaseIndex} className="process-phase">
+                        <h5>
+                          {phase.phase} ({phase.duration})
+                        </h5>
+                        {phase.steps.map((step, stepIndex) => (
+                          <div key={stepIndex} className="process-step">
+                            <strong>{step.step}:</strong> {step.description}
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Kỹ thuật bổ trợ (chỉ cho IVF) */}
+            {serviceData.id === "ivf" && (
+              <div className="expanded-section">
+                <h4>🔬 Kỹ thuật bổ trợ</h4>
+                <div className="tech-grid">
+                  {serviceData.details.techniques.techniques.map(
+                    (tech, index) => (
+                      <div key={index} className="tech-item">
+                        <strong>{tech.name}:</strong> {tech.description}
+                        <br />
+                        <small>Tỷ lệ: {tech.successRate}</small>
+                      </div>
+                    )
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Yếu tố thành công */}
+            <div className="expanded-section">
+              <h4>📊 Yếu tố ảnh hưởng đến tỷ lệ thành công</h4>
+              <ul>
+                {serviceData.details.successFactors.factors.map(
+                  (factor, index) => (
+                    <li key={index}>
+                      <strong>{factor.factor}:</strong>{" "}
+                      {factor.description || factor.details?.[0]}
+                    </li>
+                  )
+                )}
+              </ul>
+            </div>
+
+            {/* Chi phí */}
+            <div className="expanded-section">
+              <h4>💰 Chi phí điều trị</h4>
+              <p>
+                <strong>Tổng chi phí:</strong>{" "}
+                {serviceData.details.costs.totalRange}
+              </p>
+              <p>
+                <small>{serviceData.details.costs.insurance}</small>
+              </p>
+            </div>
+
+            {/* FAQs */}
+            <div className="expanded-section">
+              <h4>❓ Câu hỏi thường gặp</h4>
+              {serviceData.faqs.slice(0, 3).map((faq, index) => (
+                <div key={index} className="faq-item">
+                  <strong>Q: {faq.question}</strong>
+                  <p>A: {faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="service-actions">
+          <Link to="/register" className="service-register-btn primary">
+            Đăng ký tư vấn
+          </Link>
+          <Link to="/contact" className="service-register-btn secondary">
+            Liên hệ ngay
+          </Link>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -20,177 +177,10 @@ const Services = () => {
       </div>
 
       {/* IUI Service */}
-      <div className="service-detail">
-        <div className="service-header">
-          <div className="service-detail-icon">🧬</div>
-          <div className="service-title-section">
-            <h3>IUI - Thụ tinh nhân tạo</h3>
-            <p className="service-subtitle">
-              Phương pháp hỗ trợ sinh sản đơn giản và hiệu quả
-            </p>
-          </div>
-        </div>
-
-        <div className="service-summary">
-          <p>
-            IUI là phương pháp đưa tinh trùng đã được xử lý trực tiếp vào tử
-            cung vào thời điểm rụng trứng, tăng cơ hội thụ thai tự nhiên.
-          </p>
-        </div>
-
-        <div className="service-highlights">
-          <div className="highlight-item">
-            <span className="highlight-icon">✓</span>
-            <span>Tỷ lệ thành công: 10-20% mỗi chu kỳ</span>
-          </div>
-          <div className="highlight-item">
-            <span className="highlight-icon">✓</span>
-            <span>Chi phí phải chăng</span>
-          </div>
-          <div className="highlight-item">
-            <span className="highlight-icon">✓</span>
-            <span>Ít xâm lấn, thực hiện ngoại trú</span>
-          </div>
-        </div>
-
-        <button className="expand-btn" onClick={() => toggleExpand("iui")}>
-          {expandedService === "iui" ? "Thu gọn" : "Xem chi tiết"} ▼
-        </button>
-
-        {expandedService === "iui" && (
-          <div className="service-expanded">
-            <div className="expanded-section">
-              <h4>🎯 Phù hợp với:</h4>
-              <ul>
-                <li>Vô sinh không rõ nguyên nhân</li>
-                <li>Rối loạn rụng trứng nhẹ</li>
-                <li>Chất lượng tinh trùng giảm nhẹ</li>
-                <li>Vấn đề về niêm dịch cổ tử cung</li>
-                <li>Rối loạn chức năng tình dục</li>
-              </ul>
-            </div>
-
-            <div className="expanded-section">
-              <h4>📋 Quy trình thực hiện:</h4>
-              <ol>
-                <li>Theo dõi chu kỳ rụng trứng</li>
-                <li>Kích thích rụng trứng (nếu cần)</li>
-                <li>Thu thập và xử lý tinh trùng</li>
-                <li>Đưa tinh trùng vào tử cung</li>
-                <li>Theo dõi kết quả sau 2 tuần</li>
-              </ol>
-            </div>
-
-            <div className="expanded-section">
-              <h4>⏱️ Thời gian:</h4>
-              <p>Thủ thuật chỉ mất 5-10 phút, không cần gây tê</p>
-            </div>
-          </div>
-        )}
-
-        <div className="service-actions">
-          <Link to="/register" className="service-register-btn primary">
-            Đăng ký tư vấn
-          </Link>
-          <Link to="/contact" className="service-register-btn secondary">
-            Liên hệ ngay
-          </Link>
-        </div>
-      </div>
+      <ServiceCard serviceData={IUIServiceData} />
 
       {/* IVF Service */}
-      <div className="service-detail">
-        <div className="service-header">
-          <div className="service-detail-icon">
-            <img src="/logo512.png" alt="IVF" className="service-img" />
-          </div>
-          <div className="service-title-section">
-            <h3>IVF - Thụ tinh trong ống nghiệm</h3>
-            <p className="service-subtitle">
-              Công nghệ hỗ trợ sinh sản hiện đại nhất
-            </p>
-          </div>
-        </div>
-
-        <div className="service-summary">
-          <p>
-            IVF là phương pháp thụ tinh trứng và tinh trùng ngoài cơ thể, sau đó
-            chuyển phôi chất lượng cao vào tử cung.
-          </p>
-        </div>
-
-        <div className="service-highlights">
-          <div className="highlight-item">
-            <span className="highlight-icon">✓</span>
-            <span>Tỷ lệ thành công: 40-50% (dưới 35 tuổi)</span>
-          </div>
-          <div className="highlight-item">
-            <span className="highlight-icon">✓</span>
-            <span>Giải quyết nhiều nguyên nhân vô sinh</span>
-          </div>
-          <div className="highlight-item">
-            <span className="highlight-icon">✓</span>
-            <span>Có thể kết hợp ICSI, PGT</span>
-          </div>
-        </div>
-
-        <button className="expand-btn" onClick={() => toggleExpand("ivf")}>
-          {expandedService === "ivf" ? "Thu gọn" : "Xem chi tiết"} ▼
-        </button>
-
-        {expandedService === "ivf" && (
-          <div className="service-expanded">
-            <div className="expanded-section">
-              <h4>🎯 Phù hợp với:</h4>
-              <ul>
-                <li>Tắc nghẽn vòi trứng</li>
-                <li>Vô sinh do yếu tố nam giới nặng</li>
-                <li>Thất bại IUI nhiều lần</li>
-                <li>Tuổi cao (trên 35)</li>
-                <li>Bệnh lý buồng trứng</li>
-                <li>Cần sàng lọc di truyền</li>
-              </ul>
-            </div>
-
-            <div className="expanded-section">
-              <h4>📋 Quy trình 7 bước:</h4>
-              <ol>
-                <li>Kích thích buồng trứng (8-12 ngày)</li>
-                <li>Theo dõi phát triển nang trứng</li>
-                <li>Lấy trứng (thủ thuật 15-20 phút)</li>
-                <li>Thu thập tinh trùng</li>
-                <li>Thụ tinh trong phòng lab</li>
-                <li>Nuôi cấy phôi (3-5 ngày)</li>
-                <li>Chuyển phôi vào tử cung</li>
-              </ol>
-            </div>
-
-            <div className="expanded-section">
-              <h4>🔬 Kỹ thuật bổ trợ:</h4>
-              <div className="tech-grid">
-                <div className="tech-item">
-                  <strong>ICSI:</strong> Tiêm tinh trùng vào trứng
-                </div>
-                <div className="tech-item">
-                  <strong>PGT:</strong> Sàng lọc di truyền phôi
-                </div>
-                <div className="tech-item">
-                  <strong>Đông lạnh phôi:</strong> Bảo quản phôi dư thừa
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="service-actions">
-          <Link to="/register" className="service-register-btn primary">
-            Đăng ký tư vấn
-          </Link>
-          <Link to="/contact" className="service-register-btn secondary">
-            Liên hệ ngay
-          </Link>
-        </div>
-      </div>
+      <ServiceCard serviceData={IVFServiceData} />
 
       {/* Comparison Section */}
       <div className="comparison-section">
@@ -208,8 +198,8 @@ const Services = () => {
           </div>
           <div className="comparison-row">
             <div>Chi phí</div>
-            <div>Thấp</div>
-            <div>Cao hơn</div>
+            <div>5-10 triệu VNĐ</div>
+            <div>40-80 triệu VNĐ</div>
           </div>
           <div className="comparison-row">
             <div>Độ phức tạp</div>
@@ -220,6 +210,11 @@ const Services = () => {
             <div>Thời gian điều trị</div>
             <div>1-2 tuần</div>
             <div>4-6 tuần</div>
+          </div>
+          <div className="comparison-row">
+            <div>Phù hợp với</div>
+            <div>Vô sinh nhẹ</div>
+            <div>Vô sinh phức tạp</div>
           </div>
         </div>
       </div>
