@@ -43,9 +43,9 @@ public class SecurityConfig {
                         .hasAnyRole("ADMIN", "CUSTOMER", "DOCTOR")
 
                         // Các method POST, PUT, DELETE chỉ cho ADMIN
-                        .requestMatchers(HttpMethod.POST, "/api/services/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/services/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/services/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/appointments/**").hasAnyRole("DOCTOR", "ADMIN")
 
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

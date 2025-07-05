@@ -63,4 +63,46 @@ public class UserServiceImpl implements UserService {
     public boolean existsById(Long id) {
         return userRepo.existsById(id);
     }
+
+    @Override
+    public User updateCurrentUser(User updatedData, String username) {
+        User user = userRepo.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setFullName(updatedData.getFullName());
+        user.setEmail(updatedData.getEmail());
+
+        // Nếu có mật khẩu mới, mã hóa rồi lưu lại
+        if (updatedData.getPassword() != null && !updatedData.getPassword().isEmpty()) {
+            String encodedPassword = passwordEncoder.encode(updatedData.getPassword());
+            user.setPassword(encodedPassword);
+        }
+
+        return userRepo.save(user);
+    }
+
+    @Override
+    public List<User> searchByUsername(String keyword) {
+        return userRepo.findByUsernameContainingIgnoreCase(keyword);
+    }
+
+    @Override
+    public List<User> searchByFullName(String keyword) {
+        return userRepo.findByFullNameContainingIgnoreCase(keyword);
+    }
+
+    @Override
+    public List<User> filterByRole(String roleName) {
+        return userRepo.findByRoles_Name(roleName.toUpperCase());
+    }
+
+    @Override
+    public User updateUser(Long id, User user) {
+        User existing = userRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        existing.setFullName(user.getFullName());
+        existing.setEmail(user.getEmail());
+        return userRepo.save(existing);
+    }
+
 }

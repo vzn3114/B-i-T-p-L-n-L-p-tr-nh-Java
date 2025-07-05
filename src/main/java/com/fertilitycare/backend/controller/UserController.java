@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fertilitycare.backend.entity.User;
@@ -60,5 +62,33 @@ public class UserController {
         }
         userService.deleteUserById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<User> updateCurrentUser(
+            @RequestBody User updatedData,
+            Authentication authentication) {
+
+        String username = authentication.getName();
+        User updated = userService.updateCurrentUser(updatedData, username);
+        return ResponseEntity.ok(updated);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/search/username")
+    public ResponseEntity<List<User>> searchByUsername(@RequestParam String q) {
+        return ResponseEntity.ok(userService.searchByUsername(q));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/search/fullname")
+    public ResponseEntity<List<User>> searchByFullName(@RequestParam String q) {
+        return ResponseEntity.ok(userService.searchByFullName(q));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/filter/role")
+    public ResponseEntity<List<User>> filterByRole(@RequestParam String role) {
+        return ResponseEntity.ok(userService.filterByRole(role));
     }
 }

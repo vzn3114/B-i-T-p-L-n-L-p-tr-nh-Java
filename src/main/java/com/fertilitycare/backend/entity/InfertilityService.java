@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class InfertilityService {
@@ -21,6 +23,10 @@ public class InfertilityService {
     // Constructors
     public InfertilityService() {
     }
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private User doctor;
 
     public InfertilityService(String name, String description, BigDecimal price) {
         this.name = name;
@@ -59,5 +65,13 @@ public class InfertilityService {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public User getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(User doctor) {
+        this.doctor = doctor;
     }
 }

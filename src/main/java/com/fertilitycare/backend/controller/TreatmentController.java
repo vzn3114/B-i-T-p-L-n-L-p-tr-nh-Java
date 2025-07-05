@@ -3,6 +3,7 @@ package com.fertilitycare.backend.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,7 @@ public class TreatmentController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('DOCTOR') or hasRole('ADMIN')")
     public Treatment createTreatment(@RequestBody Treatment treatment, Authentication authentication) {
         String username = authentication.getName();
         User currentUser = userRepo.findByUsername(username).orElseThrow();
@@ -46,11 +48,13 @@ public class TreatmentController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Treatment> getAllTreatments() {
         return treatmentService.getAll();
     }
 
     @GetMapping("/me")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<List<Treatment>> getMyTreatments(Authentication authentication) {
         String username = authentication.getName();
         User currentUser = userRepo.findByUsername(username).orElseThrow();
@@ -58,10 +62,23 @@ public class TreatmentController {
     }
 
     @GetMapping("/doctor/me")
+    @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<List<Treatment>> getTreatmentsForDoctor(Authentication authentication) {
         String username = authentication.getName();
         User currentDoctor = userRepo.findByUsername(username).orElseThrow();
         return ResponseEntity.ok(treatmentService.getByDoctor(currentDoctor));
+    }
+
+    @GetMapping("/statistics/status")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Object[]> statsByStatus() {
+        return treatmentService.getStatisticsByStatus();
+    }
+
+    @GetMapping("/statistics/method")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Object[]> statsByMethod() {
+        return treatmentService.getStatisticsByMethod();
     }
 
 }
