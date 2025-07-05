@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 
 const Home = () => (
   <div className="home-container">
+    {/* background */}
     <section className="hero">
       <img src={background} alt="Hiếm Muộn Care" className="hero-img" />
     </section>
+    {/* Section services-preview */}
     <section className="services-preview">
       <h2>Dịch vụ nổi bật</h2>
       <div className="services-list">
@@ -28,8 +30,9 @@ const Home = () => (
         </div>
       </div>
     </section>
+    {/* Section articles-preview */}
     <section className="articles-preview">
-      <h2>Bài viết chia sẻ kinh nghiệm</h2>
+      <h2>BÀI VIẾT CHIA SẺ KINH NGHIỆM</h2>
       <ul>
         <li>
           <Link to="/articles">
@@ -40,6 +43,39 @@ const Home = () => (
           <Link to="/articles">Những lưu ý khi điều trị IUI</Link>
         </li>
       </ul>
+    </section>
+    {/* Section services-preview */}
+    <section className="services-preview">
+      <h2>GIÁ TRỊ KHÁC BIỆT & LỢI ÍCH VỀ CHI PHÍ</h2>
+      <div className="services-list">
+        <div className="service-card">
+          <img
+            src="/images/doctors/bac-si.jpg"
+            alt="Cơ sở vật chất"
+            className="hero-img"
+          />
+          <h3>Cơ Sở Vật Chất - Trang Thiết Bị Hiện Đại</h3>
+          <Link to="/introduction/facilities">Chi tiết</Link>
+        </div>
+        <div className="service-card">
+          <img
+            src="/images/doctors/bac-si.jpg"
+            alt="Đội ngũ bác sĩ chuyên khoa hiếm muộn"
+            className="hero-img"
+          />
+          <h3>Đội Ngũ Bác Sĩ Chuyên Khoa Hiếm Muộn</h3>
+          <Link to="/introduction/doctors">Chi tiết</Link>
+        </div>
+        <div className="service-card">
+          <img
+            src="/images/doctors/bac-si.jpg"
+            alt="Dịch vụ cao cấp - Giá thành hợp lý"
+            className="hero-img"
+          />
+          <h3>Dịch Vụ Cao Cấp - Giá Thành Hợp Lý</h3>
+          <Link to="/services">Chi tiết</Link>
+        </div>
+      </div>
     </section>
   </div>
 );

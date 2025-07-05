@@ -1,55 +1,426 @@
+/* Services Page Styles */
 .services-page {
-  max-width: 800px;
+  max-width: 900px;
   margin: 2rem auto;
   padding: 1.5rem;
   background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.07);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(25, 118, 210, 0.08);
 }
+
+/* Header Section */
+.services-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f0f7ff;
+}
+
 .services-page h2 {
   color: #1976d2;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-.service-detail {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  border-left: 4px solid #1976d2;
-  background: #f5faff;
-  border-radius: 6px;
-}
-.service-detail h3 {
-  margin-bottom: 0.5rem;
-  color: #1565c0;
-}
-.service-detail-icon {
+  margin-bottom: 0.8rem;
   font-size: 2.2rem;
-  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.services-subtitle {
+  color: #666;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Service Detail Cards */
+.service-detail {
+  margin-bottom: 2rem;
+  padding: 1.8rem;
+  border: 2px solid #e3f2fd;
+  background: linear-gradient(135deg, #f5faff 0%, #fff 100%);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-detail:hover {
+  border-color: #1976d2;
+  box-shadow: 0 6px 25px rgba(25, 118, 210, 0.12);
+  transform: translateY(-2px);
+}
+
+.service-detail::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, #1976d2, #42a5f5);
+}
+
+/* Service Header */
+.service-header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1.2rem;
+  gap: 1rem;
+}
+
+.service-detail-icon {
+  font-size: 2.5rem;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: rgba(25, 118, 210, 0.1);
+  border-radius: 12px;
+  flex-shrink: 0;
 }
+
 .service-img {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   object-fit: contain;
   border-radius: 50%;
-  margin-right: 0.5rem;
-  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.12);
+  box-shadow: 0 3px 12px rgba(25, 118, 210, 0.15);
 }
-.service-register-btn {
-  display: inline-block;
-  margin-top: 0.7rem;
-  background: #1976d2;
-  color: #fff;
-  border: none;
-  padding: 0.5rem 1.2rem;
-  border-radius: 6px;
+
+.service-title-section h3 {
+  margin: 0 0 0.3rem 0;
+  color: #1565c0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.service-title-section .service-subtitle {
+  color: #757575;
+  font-size: 0.95rem;
+  margin: 0;
+  text-align: left;
+}
+
+/* Service Summary */
+.service-summary {
+  margin-bottom: 1.2rem;
+}
+
+.service-summary p {
+  color: #424242;
+  line-height: 1.6;
   font-size: 1rem;
-  font-weight: bold;
-  text-decoration: none;
-  transition: background 0.2s;
+  margin: 0;
 }
-.service-register-btn:hover {
-  background: #1565c0;
-} 
+
+/* Service Highlights */
+.service-highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.highlight-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(76, 175, 80, 0.1);
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #2e7d32;
+}
+
+.highlight-icon {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+/* Expand Button */
+.expand-btn {
+  background: none;
+  border: 1px solid #1976d2;
+  color: #1976d2;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  margin-bottom: 1rem;
+}
+
+.expand-btn:hover {
+  background: #1976d2;
+  color: white;
+}
+
+/* Expanded Content */
+.service-expanded {
+  background: #fafbff;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-left: 3px solid #1976d2;
+}
+
+.expanded-section {
+  margin-bottom: 1.5rem;
+}
+
+.expanded-section:last-child {
+  margin-bottom: 0;
+}
+
+.expanded-section h4 {
+  color: #1565c0;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.expanded-section ul,
+.expanded-section ol {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.expanded-section li {
+  margin-bottom: 0.4rem;
+  color: #424242;
+  line-height: 1.5;
+}
+
+/* Tech Grid */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.8rem;
+  margin-top: 0.8rem;
+}
+
+.tech-item {
+  background: white;
+  padding: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.tech-item strong {
+  color: #1976d2;
+}
+
+/* Service Actions */
+.service-actions {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.service-register-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+  min-width: 140px;
+}
+
+.service-register-btn.primary {
+  background: linear-gradient(135deg, #1976d2, #1565c0);
+  color: white;
+  box-shadow: 0 3px 12px rgba(25, 118, 210, 0.3);
+}
+
+.service-register-btn.primary:hover {
+  background: linear-gradient(135deg, #1565c0, #0d47a1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.4);
+}
+
+.service-register-btn.secondary {
+  background: white;
+  color: #1976d2;
+  border: 2px solid #1976d2;
+}
+
+.service-register-btn.secondary:hover {
+  background: #1976d2;
+  color: white;
+}
+
+/* Comparison Section */
+.comparison-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e3f2fd 100%);
+  padding: 2rem;
+  border-radius: 12px;
+  margin: 2rem 0;
+}
+
+.comparison-section h3 {
+  color: #1565c0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+.comparison-table {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.comparison-row {
+  display: contents;
+}
+
+.comparison-row > div {
+  background: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.comparison-row.header > div {
+  background: #1976d2;
+  color: white;
+  font-weight: 600;
+}
+
+/* CTA Section */
+.cta-section {
+  text-align: center;
+  background: linear-gradient(135deg, #1976d2, #42a5f5);
+  color: white;
+  padding: 2.5rem 2rem;
+  border-radius: 12px;
+  margin-top: 2rem;
+}
+
+.cta-section h3 {
+  margin-bottom: 0.8rem;
+  font-size: 1.5rem;
+}
+
+.cta-section p {
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.cta-btn.primary {
+  background: white;
+  color: #1976d2;
+}
+
+.cta-btn.primary:hover {
+  background: #f5f5f5;
+  transform: translateY(-1px);
+}
+
+.cta-btn.secondary {
+  background: transparent;
+  color: white;
+  border-color: white;
+}
+
+.cta-btn.secondary:hover {
+  background: white;
+  color: #1976d2;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .services-page {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .service-header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .service-detail-icon {
+    align-self: center;
+  }
+
+  .service-actions {
+    flex-direction: column;
+  }
+
+  .service-register-btn {
+    width: 100%;
+  }
+
+  .comparison-table {
+    font-size: 0.9rem;
+  }
+
+  .comparison-row > div {
+    padding: 0.8rem 0.5rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .tech-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .service-highlights {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-page h2 {
+    font-size: 1.8rem;
+  }
+
+  .service-detail {
+    padding: 1.2rem;
+  }
+
+  .comparison-table {
+    font-size: 0.8rem;
+  }
+}

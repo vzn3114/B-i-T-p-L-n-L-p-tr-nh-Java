@@ -1,10 +1,8 @@
 import React from "react";
-import CustomerNavbar from "./Navbar";
 import "../../static/assets/Notifications.css";
 
 const Notifications = () => (
   <>
-    <CustomerNavbar />
     <div className="notifications-container">
       <h2>Thông báo của bạn</h2>
       <ul className="notifications-list">
