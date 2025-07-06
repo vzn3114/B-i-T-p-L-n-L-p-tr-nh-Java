@@ -1,0 +1,75 @@
+.facility-container {
+  background-color: white;
+  color: #1f2937;
+  padding: 1.5rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.facility-title {
+  color: #6DA544;
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.italic-custom {
+  font-style: italic;
+}
+
+.facility-paragraph {
+  font-size: 1rem;
+  color: #000;
+  margin-bottom: 1.5rem;
+  line-height: 1.75;
+  text-align: justify;
+}
+
+.facility-highlight {
+  color: #6DA544;
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 1.5rem;
+  line-height: 1.75;
+  text-align: left;
+}
+
+.facility-section-title {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+
+.facility-image {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto 0.5rem;
+  display: block;
+  border-radius: 0.5rem;
+}
+
+.facility-caption {
+  text-align: center;
+  font-size: 0.875rem;
+  font-style: italic;
+  color: #718096;
+  margin-bottom: 1rem;
+}
+
+.facility-list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.facility-list li {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #000;
+  text-align: justify;
+}

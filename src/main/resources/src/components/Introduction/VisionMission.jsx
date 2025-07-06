@@ -16,7 +16,7 @@ return (
       <div className="content-section">
         <p className="section-subtitle">SỨ MỆNH – TẦM NHÌN</p>
         <p className="section-text">
-          Dựa trên nền tảng truyền thống, các giá trị cốt lõi của ngành Y Việt Nam từ sau đổi mới, đồng thời mong muốn mang lại cho người dân dịch vụ khám chữa hiếm muộn chất lượng cao và kỹ thuật, giải pháp phương pháp, kỹ thuật và phát triển bền vững, được hướng các dịch vụ cao cấp hiệu quả nhất người, trung tâm Hạnh Phúc Care đã được thành lập. Ngày từ khi mới bắt đầu với tiêu chuẩn đồng, trung tâm Hạnh Phúc Care đã chú trọng việc xây dựng đội ngũ chuyên gia bác sĩ giỏi về chuyên môn, nhiều kinh nghiệm, trung tâm đã quy tụ được đội ngũ chuyên gia hàng đầu từ nhiều khu vực nhiều năm kinh nghiệm, tâm huyết, nhiệt tình, hòa hợp, cơ sở vật chất khép kín, hỗ trợ toàn diện, thân thiện.
+          Dựa trên nền tảng truyền thống, các giá trị cốt lõi của ngành Y Việt Nam từ sau đổi mới, đồng thời mong muốn mang lại cho người dân dịch vụ khám chữa hiếm muộn chất lượng cao và kỹ thuật, giải pháp phương pháp, kỹ thuật và phát triển bền vững, được hướng các dịch vụ cao cấp hiệu quả nhất người, bệnh viện Hiếm Muộn Care đã được thành lập. Ngày từ khi mới bắt đầu với tiêu chuẩn đồng, Hiếm Muộn Care đã chú trọng việc xây dựng đội ngũ chuyên gia bác sĩ giỏi về chuyên môn, nhiều kinh nghiệm, trung tâm đã quy tụ được đội ngũ chuyên gia hàng đầu từ nhiều khu vực nhiều năm kinh nghiệm, tâm huyết, nhiệt tình, hòa hợp, cơ sở vật chất khép kín, hỗ trợ toàn diện, thân thiện.
         </p>
       </div>
 
@@ -43,7 +43,7 @@ return (
         <div>
           <p className="section-subtitle">BỆNH VIỆN KHÁCH SẠN 5 SAO</p>
           <p className="section-text small-text">
-            Trung tâm được xây dựng theo mô hình bệnh viện khách sạn theo đúng tiêu chuẩn đáp ứng đầy đủ các điều kiện cho hoạt động chăm sóc khám chữa bệnh, đồng thời mang lại những trải nghiệm chất lượng cao của khách hàng về môi trường giám, cảnh quan, phòng nghỉ tồi, nhà hàng...
+            Bệnh viện được xây dựng theo mô hình bệnh viện khách sạn theo đúng tiêu chuẩn đáp ứng đầy đủ các điều kiện cho hoạt động chăm sóc khám chữa bệnh, đồng thời mang lại những trải nghiệm chất lượng cao của khách hàng về môi trường giám, cảnh quan, phòng nghỉ tồi, nhà hàng...
           </p>
         </div>
       </div>
@@ -57,7 +57,7 @@ return (
         <div>
           <p className="section-subtitle">CƠ SỞ VẬT CHẤT – TRANG THIẾT BỊ HIỆN ĐẠI</p>
           <p className="section-text small-text">
-            Trung tâm Hạnh Phúc Care là đơn vị hàng đầu tại Việt Nam đầu tư kim cở các trang thiết bị máy móc, phương pháp chẩn đoán và điều trị hiện đại chuẩn quốc tế. Hiểu rằng thiết bị máy móc có số lượng ít trên thế giới với nhiều cơ sở Việt Nam như:
+             Bệnh viện Hiếm muộn Care là đơn vị hàng đầu tại Việt Nam đầu tư kim cở các trang thiết bị máy móc, phương pháp chẩn đoán và điều trị hiện đại chuẩn quốc tế. Hiểu rằng thiết bị máy móc có số lượng ít trên thế giới với nhiều cơ sở Việt Nam như:
             <br/>
             - Hệ thống phòng mổ đạt chuẩn Hội nghị sáng phòng mổ cho các ca phẫu thuật;
             <br/>
@@ -117,7 +117,7 @@ return (
         <div>
           <p className="section-subtitle">TRÁCH NHIỆM VỚI NGƯỜI LAO ĐỘNG</p>
           <p className="section-text small-text">
-            Trung tâm luôn trong chăm lo đời sống cán bộ nhân viên chuyên gia bác sĩ … với các chế độ chính sách cao cấp cả về vật chất và tinh thần, tạo thành môi trường làm việc lý tưởng của người lao động.
+            Hiếm muộn Care luôn trong chăm lo đời sống cán bộ nhân viên chuyên gia bác sĩ … với các chế độ chính sách cao cấp cả về vật chất và tinh thần, tạo thành môi trường làm việc lý tưởng của người lao động.
           </p>
         </div>
       </div>
@@ -131,7 +131,7 @@ return (
         <div>
           <p className="section-subtitle">TRÁCH NHIỆM VỚI CỘNG ĐỒNG</p>
           <p className="section-text small-text">
-            Trung tâm luôn thực hiện tốt, có trách nhiệm với cộng đồng thông qua nhiều hoạt động từ thiện, xã hội có ý nghĩa như tổ chức các chương rinh tư vấn, khám chữa hiếm muộn cho các cặp vợ chồng có hoàn cảnh khó khăn, các chương trình khám chữa bệnh miễn phí cho người nghèo, người có hoàn cảnh khó khăn, các chương trình hỗ trợ cộng đồng trong việc nâng cao sức khỏe sinh sản, chăm sóc sức khỏe sinh sản cho người dân.
+            Bệnh viện luôn thực hiện tốt, có trách nhiệm với cộng đồng thông qua nhiều hoạt động từ thiện, xã hội có ý nghĩa như tổ chức các chương rinh tư vấn, khám chữa hiếm muộn cho các cặp vợ chồng có hoàn cảnh khó khăn, các chương trình khám chữa bệnh miễn phí cho người nghèo, người có hoàn cảnh khó khăn, các chương trình hỗ trợ cộng đồng trong việc nâng cao sức khỏe sinh sản, chăm sóc sức khỏe sinh sản cho người dân.
           </p>
         </div>
       </div>
