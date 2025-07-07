@@ -1,5 +1,5 @@
 import React from "react";
-import "../static/assets/Register.css";
+import "../../static/assets/Register.css";
 
 const Register = () => (
   <div className="register-page">

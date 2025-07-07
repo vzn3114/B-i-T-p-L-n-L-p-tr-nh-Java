@@ -9,11 +9,13 @@ import {
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
-import Login from "./components/Login";
-import Register from "./components/Register";
+
 // Guest
 import GuestServices from "./components/Guest/Services";
 import GuestArticles from "./components/Guest/Articles";
+import Contact from "./components/Guest/Contact";
+import Login from "./components/Guest/Login";
+import Register from "./components/Guest/Register";
 // Customer
 import CustomerDashboard from "./components/Customer/Dashboard";
 import TreatmentTimeline from "./components/Customer/TreatmentTimeline";
@@ -35,7 +37,7 @@ import AdminDashboard from "./components/Admin/Dashboard";
 import Facilities from "./components/Introduction/Facilities";
 import VisionMission from "./components/Introduction/VisionMission";
 import Staff from "./components/Introduction/Staff";
-import Contact from "./components/Contact";
+
 
 const Layout = () => {
   const location = useLocation();
@@ -56,6 +58,7 @@ const Layout = () => {
         <Route path="/articles" element={<GuestArticles />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/contact" element={<Contact />} />
         {/* Customer */}
         <Route path="/customer/dashboard" element={<CustomerDashboard />} />
         <Route path="/customer/timeline" element={<TreatmentTimeline />} />
@@ -77,7 +80,7 @@ const Layout = () => {
         <Route path="/introduction/facilities" element={<Facilities />} />
         <Route path="/introduction/visionmission" element={<VisionMission />} />
         <Route path="/introduction/doctors" element={<Staff />} />
-        <Route path="/contact" element={<Contact />} />
+        
       </Routes>
       {!shouldHideNavbar && <Footer />}
     </>
@@ -106,8 +109,6 @@ const App = () => {
     <Router>
       <Layout />
       <div>
-        <h1>Danh sách người dùng</h1>
-        {error && <div style={{ color: "red" }}>{error}</div>}
         <ul>
           {users.map((user) => (
             <li key={user.id}>{user.username}</li>
