@@ -115,7 +115,7 @@ const App = () => {
   return (
     <Router>
       <Layout />
-      <div>
+      {/* <div>
         <h1>Danh sách người dùng</h1>
         {error && <div style={{ color: "red" }}>{error}</div>}
         <ul>
@@ -123,7 +123,7 @@ const App = () => {
             <li key={user.id}>{user.username}</li>
           ))}
         </ul>
-      </div>
+      </div> */}
     </Router>
   );
 };
