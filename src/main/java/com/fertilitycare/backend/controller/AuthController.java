@@ -1,4 +1,5 @@
 package com.fertilitycare.backend.controller;
+import com.fertilitycare.backend.security.JwtUtils;
 
 import java.util.List;
 
@@ -13,11 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
-import com.fertilitycare.backend.security.JwtUtils;
 
 import jakarta.validation.constraints.NotBlank;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/login")
 public class AuthController {

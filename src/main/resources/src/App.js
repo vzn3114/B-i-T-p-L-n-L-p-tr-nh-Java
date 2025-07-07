@@ -1,5 +1,5 @@
 //App.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -36,8 +36,6 @@ import Facilities from "./components/Introduction/Facilities";
 import VisionMission from "./components/Introduction/VisionMission";
 import Staff from "./components/Introduction/Staff";
 import Contact from "./components/Contact";
-
-import { useEffect } from "react";
 
 const Layout = () => {
   const location = useLocation();
@@ -87,9 +85,35 @@ const Layout = () => {
 };
 
 const App = () => {
+  const [users, setUsers] = useState([]);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/users", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Không có quyền truy cập");
+        return res.json();
+      })
+      .then((data) => setUsers(data))
+      .catch((err) => setError(err.message));
+  }, []);
+
   return (
     <Router>
       <Layout />
+      <div>
+        <h1>Danh sách người dùng</h1>
+        {error && <div style={{ color: "red" }}>{error}</div>}
+        <ul>
+          {users.map((user) => (
+            <li key={user.id}>{user.username}</li>
+          ))}
+        </ul>
+      </div>
     </Router>
   );
 };
