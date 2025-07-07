@@ -155,7 +155,7 @@ const Services = () => {
         )}
 
         <div className="service-actions">
-          <Link to="/register" className="service-register-btn primary">
+          <Link to="/login" className="service-register-btn primary">
             Đăng ký tư vấn
           </Link>
           <Link to="/contact" className="service-register-btn secondary">

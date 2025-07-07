@@ -18,8 +18,8 @@ public class Treatment {
 
     private String method; // IUI, IVF, v.v.
     private LocalDate startDate;
-
     private String status; // Đang điều trị, Đã hoàn tất, Hủy, ...
+    private String phase; // Giai đoạn điều trị
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -29,16 +29,13 @@ public class Treatment {
     @JoinColumn(name = "doctor_id")
     private User doctor; // Bác sĩ phụ trách (nếu có)
 
-    // Thêm getter/setter cho customer
-    public User getCustomer() {
-        return customer;
+    @ManyToOne
+    @JoinColumn(name = "service_id")
+    private InfertilityService service; // Dịch vụ liên quan
+
+    public Treatment() {
     }
 
-    public void setCustomer(User customer) {
-        this.customer = customer;
-    }
-
-    // Các getter/setter khác (method, startDate, status...)
     public Long getId() {
         return id;
     }
@@ -71,11 +68,35 @@ public class Treatment {
         this.status = status;
     }
 
+    public String getPhase() {
+        return phase;
+    }
+
+    public void setPhase(String phase) {
+        this.phase = phase;
+    }
+
+    public User getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(User customer) {
+        this.customer = customer;
+    }
+
     public User getDoctor() {
         return doctor;
     }
 
     public void setDoctor(User doctor) {
         this.doctor = doctor;
+    }
+
+    public InfertilityService getService() {
+        return service;
+    }
+
+    public void setService(InfertilityService service) {
+        this.service = service;
     }
 }

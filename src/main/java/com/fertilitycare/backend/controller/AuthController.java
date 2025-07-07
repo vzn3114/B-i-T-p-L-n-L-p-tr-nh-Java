@@ -50,7 +50,10 @@ public class AuthController {
             // Truyền thêm roles vào token
             String token = jwtUtils.generateJwtToken(userDetails.getUsername(), roles);
 
-            return ResponseEntity.ok(new JwtResponse(token));
+            // Lấy role đầu tiên 
+            String role = roles.isEmpty() ? "" : roles.get(0);
+
+            return ResponseEntity.ok(new JwtResponse(token, role));
         } catch (BadCredentialsException e) {
             return ResponseEntity.status(401).body("Sai tài khoản hoặc mật khẩu");
         }
@@ -82,9 +85,11 @@ public class AuthController {
 
     public static class JwtResponse {
         private String token;
+        private String role;
 
-        public JwtResponse(String token) {
+        public JwtResponse(String token, String role) {
             this.token = token;
+            this.role = role;
         }
 
         public String getToken() {
@@ -93,6 +98,14 @@ public class AuthController {
 
         public void setToken(String token) {
             this.token = token;
+        }
+
+        public String getRole() {
+            return role;
+        }
+
+        public void setRole(String role) {
+            this.role = role;
         }
     }
 }

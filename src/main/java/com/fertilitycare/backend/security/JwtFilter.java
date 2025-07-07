@@ -1,6 +1,8 @@
 package com.fertilitycare.backend.security;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,6 +17,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -53,22 +56,25 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            System.out.println("🔐 Đã load userDetails, roles: " + userDetails.getAuthorities());
+            // Lấy vai trò từ token và thêm tiền tố ROLE_
+            List<SimpleGrantedAuthority> authorities = jwtUtils.getRolesFromJwtToken(token)
+                .stream()
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList());
+
+            System.out.println("🔐 Đã load userDetails, roles: " + authorities);
 
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,
-                    userDetails.getAuthorities());
+                    authorities);
 
             authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authToken);
             System.out.println(">> [JwtFilter] Username from token: " + username);
-            System.out.println(">> [JwtFilter] Authorities from DB: " + userDetails.getAuthorities());
-            System.out.println(">> [JwtFilter] Authorities: " + userDetails.getAuthorities());
-
+            System.out.println(">> [JwtFilter] Authorities: " + authorities);
         }
 
         filterChain.doFilter(request, response);
     }
-
 }

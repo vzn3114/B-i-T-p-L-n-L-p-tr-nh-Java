@@ -68,7 +68,7 @@ const Home = () => (
         </div>
         <div className="service-card">
           <img
-            src="/images/doctors/infertility.jpg"
+            src="/images/doctors/content-section-6.jpg"
             alt="Dịch vụ cao cấp - Giá thành hợp lý"
             className="hero-img"
           />

@@ -90,11 +90,18 @@ const Layout = () => {
 const App = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
+  const userRole = localStorage.getItem("userRole"); 
 
   useEffect(() => {
+    if (userRole !== "admin") return; // Chỉ gọi API cho admin
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setError("Không tìm thấy token xác thực");
+      return;
+    }
     fetch("http://localhost:8080/api/users", {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
+        Authorization: `Bearer ${token}`,
       },
     })
       .then((res) => {
@@ -103,12 +110,14 @@ const App = () => {
       })
       .then((data) => setUsers(data))
       .catch((err) => setError(err.message));
-  }, []);
+  }, [userRole]);
 
   return (
     <Router>
       <Layout />
       <div>
+        <h1>Danh sách người dùng</h1>
+        {error && <div style={{ color: "red" }}>{error}</div>}
         <ul>
           {users.map((user) => (
             <li key={user.id}>{user.username}</li>

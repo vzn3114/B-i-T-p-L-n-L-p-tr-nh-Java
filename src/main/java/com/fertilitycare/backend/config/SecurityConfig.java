@@ -39,27 +39,25 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/api/users/register/**").permitAll()
-
-                        // ADMIN quản lý user
+                        // Cho phép CUSTOMER truy cập các endpoint cần thiết
+                        .requestMatchers("/api/users/me").hasRole("CUSTOMER")
+                        .requestMatchers("/api/treatments/me").hasRole("CUSTOMER")
+                        .requestMatchers("/api/appointments/me").hasRole("CUSTOMER")
+                        // Cho phép DOCTOR truy cập các endpoint của bác sĩ
+                        .requestMatchers("/api/treatments/doctor/me").hasRole("DOCTOR")
+                        .requestMatchers("/api/appointments/doctor/me").hasRole("DOCTOR")
+                        // ADMIN quản lý tất cả users và các endpoint khác
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
-
-                        // Xem danh sách dịch vụ: ai cũng được xem
-                        .requestMatchers(HttpMethod.GET, "/api/services/**")
-                        .hasAnyRole("ADMIN", "CUSTOMER", "DOCTOR")
-
-                        // Các method POST, PUT, DELETE chỉ cho ADMIN
+                        .requestMatchers(HttpMethod.GET, "/api/services/**").hasAnyRole("ADMIN", "CUSTOMER", "DOCTOR")
                         .requestMatchers(HttpMethod.PUT, "/api/services/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/services/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/appointments/**").hasAnyRole("DOCTOR", "ADMIN")
-
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-    
 
     @Bean
     public DaoAuthenticationProvider authProvider() {

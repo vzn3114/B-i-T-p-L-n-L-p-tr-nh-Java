@@ -26,8 +26,22 @@ function Login() {
 
       const data = JSON.parse(text);
       localStorage.setItem("token", data.token);
-      // Chuyển hướng hoặc gọi API khác
-      window.location.href = "/dashboard";
+      localStorage.setItem("role", data.role);
+
+      // Điều hướng theo role
+      switch (data.role) {
+        case "ADMIN":
+          window.location.href = "/admin/dashboard";
+          break;
+        case "MANAGER":
+          window.location.href = "/manager/services";
+          break;
+        case "DOCTOR":
+          window.location.href = "/doctor/patients";
+          break;
+        default:
+          window.location.href = "/";
+      }
     } catch (err) {
       setError("Lỗi kết nối tới server!");
     }

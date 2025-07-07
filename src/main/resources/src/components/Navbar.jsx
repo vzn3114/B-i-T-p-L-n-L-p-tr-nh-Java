@@ -1,17 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../static/assets/Navbar.css";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // Thêm useNavigate để chuyển hướng
   const [isAboutDropdownOpen, setIsAboutDropdownOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    setIsLoggedIn(!!token);
+    // Kiểm tra token ban đầu
+    setIsLoggedIn(!!localStorage.getItem("token"));
+
+    // Theo dõi sự kiện storage để phát hiện thay đổi token
+    const handleStorageChange = () => {
+      setIsLoggedIn(!!localStorage.getItem("token"));
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
+  // Handlers cho dropdown Giới thiệu
   const handleAboutMouseEnter = () => {
     setIsAboutDropdownOpen(true);
   };
@@ -19,7 +30,23 @@ const Navbar = () => {
   const handleAboutMouseLeave = () => {
     setIsAboutDropdownOpen(false);
   };
-  
+
+  // Handlers cho dropdown Hồ sơ
+  const handleProfileMouseEnter = () => {
+    setIsProfileDropdownOpen(true);
+  };
+
+  const handleProfileMouseLeave = () => {
+    setIsProfileDropdownOpen(false);
+  };
+
+  // Xử lý đăng xuất
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // Xóa token
+    setIsLoggedIn(false); // Cập nhật trạng thái
+    navigate("/"); // Chuyển hướng đến trang chủ
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-logo">
@@ -55,7 +82,9 @@ const Navbar = () => {
             </ul>
           )}
         </li>
-        <li><Link to="/contact">Liên hệ</Link></li>
+        <li>
+          <Link to="/contact">Liên hệ</Link>
+        </li>
         {!isLoggedIn ? (
           <>
             <li>
@@ -68,13 +97,13 @@ const Navbar = () => {
         ) : (
           <li
             className="dropdown"
-            onMouseEnter={handleAboutMouseEnter}
-            onMouseLeave={handleAboutMouseLeave}
+            onMouseEnter={handleProfileMouseEnter}
+            onMouseLeave={handleProfileMouseLeave}
           >
             <span className="dropdown-toggle">
               Hồ sơ <span className="dropdown-arrow">▼</span>
             </span>
-            {isAboutDropdownOpen && (
+            {isProfileDropdownOpen && (
               <ul className="dropdown-menu">
                 <li>
                   <Link to="/customer/dashboard">Trang tổng quan</Link>
@@ -92,7 +121,9 @@ const Navbar = () => {
                   <Link to="/customer/feedback">Đánh giá</Link>
                 </li>
                 <li>
-                  <Link to="/logout">Đăng xuất</Link>
+                  <button onClick={handleLogout} className="logout-button">
+                    Đăng xuất
+                  </button>
                 </li>
               </ul>
             )}

@@ -2,6 +2,7 @@ package com.fertilitycare.backend.controller;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fertilitycare.backend.DTO.AppointmentStatsDTO;
+import com.fertilitycare.backend.DTO.AppointmentDTO;
 import com.fertilitycare.backend.entity.Appointment;
 import com.fertilitycare.backend.entity.User;
 import com.fertilitycare.backend.repository.UserRepository;
@@ -43,23 +45,35 @@ public class AppointmentController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<Appointment> book(@RequestBody Appointment request,
             @AuthenticationPrincipal UserDetails userDetails) {
-        User customer = userRepo.findByUsername(userDetails.getUsername()).orElseThrow();
+        User customer = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
         Appointment booked = appointmentService.create(request, customer);
         return ResponseEntity.ok(booked);
     }
 
     @GetMapping("/me")
-    public ResponseEntity<List<Appointment>> myAppointments(@AuthenticationPrincipal UserDetails userDetails) {
-        User customer = userRepo.findByUsername(userDetails.getUsername()).orElseThrow();
-        return ResponseEntity.ok(appointmentService.getByCustomer(customer));
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<List<AppointmentDTO>> myAppointments(@AuthenticationPrincipal UserDetails userDetails) {
+        User customer = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        List<Appointment> appointments = appointmentService.getByCustomer(customer);
+        List<AppointmentDTO> dtos = appointments.stream().map(appt -> new AppointmentDTO(
+            appt.getId(),
+            appt.getAppointmentTime() != null ? appt.getAppointmentTime().toString() : null,
+            appt.getService() != null ? appt.getService().getName() : "N/A",
+            appt.getAppointmentType(),
+            appt.getDoctor() != null ? appt.getDoctor().getFullName() : "N/A",
+            appt.getStatus()
+        )).collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> cancel(@PathVariable Long id,
             @AuthenticationPrincipal UserDetails userDetails) {
-        User customer = userRepo.findByUsername(userDetails.getUsername()).orElseThrow();
+        User customer = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
         appointmentService.cancel(id, customer);
         return ResponseEntity.ok().build();
     }
@@ -68,7 +82,7 @@ public class AppointmentController {
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<List<Appointment>> getMyAppointmentsAsDoctor(
             @AuthenticationPrincipal UserDetails userDetails) {
-        User doctor = userRepo.findByUsername(userDetails.getUsername()).orElseThrow();
+        User doctor = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
         return ResponseEntity.ok(appointmentService.getByDoctor(doctor));
     }
 
@@ -77,7 +91,7 @@ public class AppointmentController {
     public ResponseEntity<Appointment> doctorUpdateStatus(@PathVariable Long id,
             @RequestBody StatusRequest request,
             @AuthenticationPrincipal UserDetails userDetails) {
-        User doctor = userRepo.findByUsername(userDetails.getUsername()).orElseThrow();
+        User doctor = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
         Appointment updated = appointmentService.updateStatus(id, request.status(), doctor);
         return ResponseEntity.ok(updated);
     }
@@ -92,8 +106,7 @@ public class AppointmentController {
         return ResponseEntity.ok("Cập nhật trạng thái thành công");
     }
 
-    public record StatusRequest(String status) {
-    }
+    public record StatusRequest(String status) {}
 
     @GetMapping("/admin/statistics/status")
     @PreAuthorize("hasRole('ADMIN')")
@@ -119,10 +132,9 @@ public class AppointmentController {
             @PathVariable("appointmentId") Long appointmentId,
             @RequestBody Map<String, String> body,
             @AuthenticationPrincipal UserDetails userDetails) {
-        User doctor = userRepo.findByUsername(userDetails.getUsername()).orElseThrow();
+        User doctor = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
         String note = body.get("note");
         appointmentService.updateDoctorNote(appointmentId, note, doctor);
         return ResponseEntity.ok("Cập nhật kết quả khám thành công");
     }
-
 }

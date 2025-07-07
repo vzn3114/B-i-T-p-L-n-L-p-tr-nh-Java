@@ -20,16 +20,10 @@ public class Appointment {
     private String patientName;
     private LocalDateTime appointmentTime;
     private String status;
+    private String appointmentType;
+
     @Column(length = 1000)
     private String doctorNote;
-
-    public String getDoctorNote() {
-        return doctorNote;
-    }
-
-    public void setDoctorNote(String doctorNote) {
-        this.doctorNote = doctorNote;
-    }
 
     @ManyToOne
     @JoinColumn(name = "service_id")
@@ -76,6 +70,22 @@ public class Appointment {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getAppointmentType() {
+        return appointmentType;
+    }
+
+    public void setAppointmentType(String appointmentType) {
+        this.appointmentType = appointmentType;
+    }
+
+    public String getDoctorNote() {
+        return doctorNote;
+    }
+
+    public void setDoctorNote(String doctorNote) {
+        this.doctorNote = doctorNote;
     }
 
     public InfertilityService getService() {
