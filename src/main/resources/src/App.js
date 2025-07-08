@@ -9,6 +9,7 @@ import {
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./components/Home";
+import ProtectedRoute from "./components/Admin/ProtectedRoute";
 
 // Guest
 import GuestServices from "./components/Guest/Services";
@@ -37,7 +38,6 @@ import AdminDashboard from "./components/Admin/Dashboard";
 import Facilities from "./components/Introduction/Facilities";
 import VisionMission from "./components/Introduction/VisionMission";
 import Staff from "./components/Introduction/Staff";
-
 
 const Layout = () => {
   const location = useLocation();
@@ -74,13 +74,26 @@ const Layout = () => {
         <Route path="/manager/doctors" element={<DoctorManagement />} />
         <Route path="/manager/feedbacks" element={<FeedbackManagement />} />
         {/* Admin */}
-        <Route path="/admin/users" element={<UserManagement />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute requiredRole="ADMIN">
+              <UserManagement />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute requiredRole="ADMIN">
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
         {/* Introduction */}
         <Route path="/introduction/facilities" element={<Facilities />} />
         <Route path="/introduction/visionmission" element={<VisionMission />} />
         <Route path="/introduction/doctors" element={<Staff />} />
-        
       </Routes>
       {!shouldHideNavbar && <Footer />}
     </>
@@ -90,10 +103,10 @@ const Layout = () => {
 const App = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
-  const userRole = localStorage.getItem("userRole"); 
+  const userRole = localStorage.getItem("role");
 
   useEffect(() => {
-    if (userRole !== "admin") return; // Chỉ gọi API cho admin
+    if (userRole !== "ADMIN") return; // Chỉ gọi API cho admin
     const token = localStorage.getItem("token");
     if (!token) {
       setError("Không tìm thấy token xác thực");

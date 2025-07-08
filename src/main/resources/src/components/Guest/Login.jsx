@@ -23,21 +23,36 @@ function Login() {
         setError("Sai tài khoản hoặc mật khẩu! " + text);
         return;
       }
-
       const data = JSON.parse(text);
       localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.role);
+
+      // Nếu backend trả về "role" là chuỗi
+      let role = data.role;
+
+      // Nếu backend trả về "roles" là mảng (phòng trường hợp backend thay đổi)
+      if (!role && Array.isArray(data.roles)) {
+        role = data.roles[0];
+        // Nếu role có tiền tố "ROLE_", thì mới cần replace
+        if (role.startsWith("ROLE_")) {
+          role = role.replace("ROLE_", "");
+        }
+      }
+
+      localStorage.setItem("role", role);
 
       // Điều hướng theo role
-      switch (data.role) {
+      switch (role) {
         case "ADMIN":
           window.location.href = "/admin/dashboard";
           break;
-        case "MANAGER":
-          window.location.href = "/manager/services";
+        case "CUSTOMER":
+          window.location.href = "/customer/dashboard";
           break;
         case "DOCTOR":
           window.location.href = "/doctor/patients";
+          break;
+        case "MANAGER":
+          window.location.href = "/manager/dashboard";
           break;
         default:
           window.location.href = "/";

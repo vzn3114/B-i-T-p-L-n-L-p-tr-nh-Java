@@ -97,8 +97,13 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<AppointmentStatsDTO> getStatsByService() {
-        return repository.countAppointmentsByService();
+    public AppointmentStatsDTO getAppointmentStats() {
+        long totalAppointments = repository.count();
+        long totalIUI = repository.countByServiceMethod("IUI");
+        long totalIVF = repository.countByServiceMethod("IVF");
+        long totalSuccess = repository.countByStatus("SUCCESS");
+        double successRate = totalAppointments > 0 ? (double) totalSuccess * 100 / totalAppointments : 0.0;
+        return new AppointmentStatsDTO(totalAppointments, totalIUI, totalIVF, successRate);
     }
 
 }
