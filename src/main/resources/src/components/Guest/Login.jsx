@@ -49,7 +49,7 @@ function Login() {
           window.location.href = "/customer/dashboard";
           break;
         case "DOCTOR":
-          window.location.href = "/doctor/dashboard";
+          window.location.href = "/doctor/patients";
           break;
         case "MANAGER":
           window.location.href = "/manager/dashboard";
