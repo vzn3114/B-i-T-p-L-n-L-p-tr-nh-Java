@@ -4,14 +4,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,14 +23,14 @@ import com.fertilitycare.backend.entity.User;
 import com.fertilitycare.backend.repository.UserRepository;
 import com.fertilitycare.backend.service.TreatmentService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import ch.qos.logback.classic.Logger;
 
 @RestController
 @RequestMapping("/api/treatments")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class TreatmentController {
 
+    private static final Logger logger = (Logger) LoggerFactory.getLogger(TreatmentController.class);
     private final TreatmentService treatmentService;
     private final UserRepository userRepo;
 
@@ -64,11 +65,8 @@ public class TreatmentController {
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<List<TreatmentDTO>> getMyTreatments(Authentication authentication) {
         String username = authentication.getName();
-        logger.info("Username from token: {}", username);
         User currentUser = userRepo.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-        logger.info("User ID: {}", currentUser.getId());
         List<Treatment> treatments = treatmentService.getByCustomer(currentUser);
-        logger.info("Number of treatments found: {}", treatments.size());
         List<TreatmentDTO> dtos = treatments.stream().map(treatment -> new TreatmentDTO(
                 treatment.getId(),
                 treatment.getMethod(),

@@ -103,10 +103,10 @@ const Layout = () => {
 const App = () => {
   const [users, setUsers] = useState([]);
   const [error, setError] = useState("");
-  const userRole = localStorage.getItem("userRole");
+  const userRole = localStorage.getItem("role");
 
   useEffect(() => {
-    if (userRole !== "admin") return; // Chỉ gọi API cho admin
+    if (userRole !== "ADMIN") return; // Chỉ gọi API cho admin
     const token = localStorage.getItem("token");
     if (!token) {
       setError("Không tìm thấy token xác thực");

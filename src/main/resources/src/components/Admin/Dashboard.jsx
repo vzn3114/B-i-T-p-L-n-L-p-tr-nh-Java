@@ -770,6 +770,10 @@ const TAB_COMPONENTS = {
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [stats, setStats] = useState(null);
+  const userRole = localStorage.getItem("role");
+  if (userRole !== "ADMIN") {
+    // báo lỗi hoặc chuyển hướng
+  }
   useEffect(() => {
     fetchWithAuth("http://localhost:8080/api/appointments/stats")
       .then((data) => setStats(data))
