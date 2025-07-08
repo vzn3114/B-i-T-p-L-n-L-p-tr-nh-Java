@@ -1,72 +1,86 @@
 import React, { useState } from "react";
 import "../../static/assets/Staff.css";
-import { Link } from "react-router-dom";
 
 const Staff = () => {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
-  const [showAppointmentModal, setShowAppointmentModal] = useState(false);
-  const [selectedDoctorForAppointment, setSelectedDoctorForAppointment] =
-    useState(null);
-  const [appointmentData, setAppointmentData] = useState({
-    patientName: "",
-    patientPhone: "",
-    patientAddress: "",
-    appointmentDate: "",
-    appointmentTime: "",
-    patientNote: "",
-  });
 
   const doctors = [
     {
       id: 1,
-      name: "BS.CKII Nguyễn Thị Minh Hương",
-      image: "/images/doctors/bac-si.jpg",
-      specialty: "Trưởng khoa Hỗ trợ sinh sản - 15 năm kinh nghiệm",
+      name: "TS.BS Nguyễn Thị Nhã",
+      image: "/images/doctors/bac-si-thi-nha.jpg",
+      specialty: "Trưởng khoa Hỗ trợ sinh sản - 20 năm kinh nghiệm",
       achievements: [
-        "Tỷ lệ thành công IVF 65% - cao nhất trong khu vực",
-        "Thực hiện thành công hơn 2000 ca IVF",
-        "Chứng chỉ chuyên gia sinh sản quốc tế",
-        "Tác giả 25 bài báo khoa học về hỗ trợ sinh sản",
-        "Giảng viên thỉnh giảng tại Đại học Y Hà Nội",
+        "Giám đốc Trung tâm Hỗ trợ sinh sản, BV Từ Dũ",
+        "Tỷ lệ thành công IVF lên đến 68% trong năm 2024",
+        "Thực hiện hơn 3000 ca IVF và 1500 ca IUI",
+        "Chứng chỉ đào tạo IVF tại Singapore",
+        "Tác giả 30 bài báo khoa học về hỗ trợ sinh sản",
       ],
     },
     {
       id: 2,
-      name: "BS.CKI Trần Văn Đức",
-      image: "/images/doctors/bac-si.jpg",
-      specialty: "Bác sĩ chuyên khoa Nam học - 12 năm kinh nghiệm",
+      name: "PGS.TS.BS Hồ Mạnh Tường",
+      image: "/images/doctors/bac-si-ho-manh-tuong.jpg",
+      specialty: "Chuyên gia Hỗ trợ sinh sản và Nam học - 25 năm kinh nghiệm",
       achievements: [
-        "Chuyên gia hàng đầu về vô sinh nam",
-        "Nghiên cứu chất lượng tinh trùng tiên tiến",
-        "Thành viên Hội Nam học Việt Nam",
-        "Điều trị thành công 1500+ ca vô sinh nam",
-        "Chứng chỉ chuyên sâu về vi phẫu thuật nam khoa",
+        "Tổng thư ký Hội Nội tiết sinh sản và Vô sinh TP.HCM",
+        "Chuyên gia hàng đầu về IVF và IUI tại Việt Nam",
+        "Thực hiện hơn 4000 ca IVF thành công",
+        "Đào tạo chuyên sâu tại Úc và Nhật Bản",
+        "Nghiên cứu cải tiến kỹ thuật chuyển phôi",
       ],
     },
     {
       id: 3,
-      name: "BS.CKII Lê Thị Lan Anh",
-      image: "/images/doctors/bac-si.jpg",
-      specialty: "Phó trưởng khoa Sản phụ khoa - 18 năm kinh nghiệm",
+      name: "BS.CKII Trần Thị Kim Xuyến",
+      image: "/images/doctors/bac-gi-3.png",
+      specialty: "Bác sĩ Sản phụ khoa, chuyên sâu IVF - 18 năm kinh nghiệm",
       achievements: [
-        "Chuyên gia siêu âm hàng đầu",
-        "Tỷ lệ thành công IUI 40%",
-        "Thực hiện 3000+ ca siêu âm chẩn đoán",
-        "Giải thưởng bác sĩ xuất sắc năm 2023",
-        "Chứng chỉ chuyên gia siêu âm 4D quốc tế",
+        "Chuyên gia IVF tại BV Phụ sản Quốc tế",
+        "Tỷ lệ thành công IUI đạt 45% trong năm 2023",
+        "Thực hiện 2500+ ca chọc hút noãn",
+        "Chứng chỉ đào tạo IVF tại Thái Lan",
+        "Giảng viên thỉnh giảng tại Đại học Y Dược TP.HCM",
       ],
     },
     {
       id: 4,
-      name: "BS.CKI Phạm Minh Tuấn",
-      image: "/images/doctors/bac-si.jpg",
-      specialty: "Bác sĩ chuyên khoa Phẫu thuật - 10 năm kinh nghiệm",
+      name: "TS.BS Vũ Nhật Khang",
+      image: "/images/doctors/bac-si-4.png",
+      specialty: "Chuyên gia Hỗ trợ sinh sản - 15 năm kinh nghiệm",
       achievements: [
-        "Chuyên gia phẫu thuật nội soi",
-        "Điều trị lạc nội mạc tử cung hiệu quả",
-        "Thực hiện 800+ ca phẫu thuật nội soi",
-        "Chứng chỉ phẫu thuật nội soi châu Âu",
-        "Tỷ lệ thành công phẫu thuật 95%",
+        "Chuyên gia phôi học và IVF tại BV Hùng Vương",
+        "Tỷ lệ thành công IVF đạt 62% trong năm 2024",
+        "Thực hiện 2000+ ca chuyển phôi tươi và đông lạnh",
+        "Nghiên cứu tối ưu hóa môi trường nuôi cấy phôi",
+        "Chứng chỉ phôi học từ Anh Quốc",
+      ],
+    },
+    {
+      id: 5,
+      name: "BS.CKII Nguyễn Thanh Tâm",
+      image: "/images/doctors/bac-gi-5.png",
+      specialty: "Bác sĩ Sản phụ khoa, chuyên sâu IUI - 16 năm kinh nghiệm",
+      achievements: [
+        "Chuyên gia IUI tại BV Phụ sản Trung ương",
+        "Tỷ lệ thành công IUI đạt 42% trong năm 2023",
+        "Thực hiện 1800+ ca IUI và tư vấn vô sinh",
+        "Chứng chỉ đào tạo IUI tại Hàn Quốc",
+        "Thành viên Hội Sản phụ khoa Việt Nam",
+      ],
+    },
+    {
+      id: 6,
+      name: "PGS.TS.BS Lê Hoàng",
+      image: "/images/doctors/doctor6.webp",
+      specialty: "Chuyên gia Hỗ trợ sinh sản và Nội tiết - 22 năm kinh nghiệm",
+      achievements: [
+        "Phó giám đốc Trung tâm IVF An Sinh",
+        "Tỷ lệ thành công IVF đạt 65% trong năm 2024",
+        "Thực hiện hơn 3500 ca IVF và IUI",
+        "Nghiên cứu về kích thích buồng trứng hiệu quả",
+        "Chứng chỉ nội tiết sinh sản từ Mỹ",
       ],
     },
   ];
@@ -77,73 +91,16 @@ const Staff = () => {
 
   const handleCloseModal = () => {
     setSelectedDoctor(null);
-    setShowAppointmentModal(false);
-    setSelectedDoctorForAppointment(null);
   };
-  const handleAppointmentClick = (doctor) => {
-    setSelectedDoctorForAppointment(doctor);
-    setShowAppointmentModal(true);
-    // Reset form data
-    setAppointmentData({
-      patientName: "",
-      patientPhone: "",
-      patientAddress: "",
-      appointmentDate: "",
-      appointmentTime: "",
-      patientNote: "",
-    });
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setAppointmentData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmitAppointment = (e) => {
-    e.preventDefault();
-
-    // Validation
-    if (
-      !appointmentData.patientName ||
-      !appointmentData.patientPhone ||
-      !appointmentData.appointmentDate
-    ) {
-      alert("Vui lòng điền đầy đủ thông tin bắt buộc!");
-      return;
-    }
-
-    const submissionData = {
-      ...appointmentData,
-      doctorId: selectedDoctorForAppointment.id,
-      doctorName: selectedDoctorForAppointment.name,
-      createdAt: new Date().toISOString(),
-    };
-
-    // Log dữ liệu để kiểm tra
-    console.log("Appointment Data:", submissionData);
-
-    // Hiển thị thông báo thành công
-    alert(
-      `Đặt lịch hẹn thành công với ${selectedDoctorForAppointment.name}!\nChúng tôi sẽ liên hệ với bạn sớm nhất.`
-    );
-
-    // Đóng modal
-    handleCloseModal();
-  };
-
-  // Lấy thời gian thực để set minimum date
-  const today = new Date().toISOString().split("T")[0];
 
   return (
     <div className="staff-container">
       <section className="staff-intro">
         <h2>Đội Ngũ Bác Sĩ</h2>
         <p>
-          Đội ngũ bác sĩ giàu kinh nghiệm, tận tâm và chuyên nghiệp, luôn đồng
-          hành cùng các cặp vợ chồng trên hành trình tìm con.
+          Đội ngũ bác sĩ chuyên gia hàng đầu trong lĩnh vực hỗ trợ sinh sản, với
+          kinh nghiệm phong phú trong IUI và IVF, cam kết mang lại tỷ lệ thành
+          công cao nhất cho các cặp vợ chồng.
         </p>
       </section>
 
@@ -156,18 +113,14 @@ const Staff = () => {
               </div>
               <h3>{doctor.name}</h3>
               <p className="staff-specialty">{doctor.specialty}</p>
-              <button
-                className="view-details-btn"
-                onClick={() => handleViewDetails(doctor)}
-              >
-                Xem chi tiết
-              </button>
-              <button
-                className="appointment-btn"
-                onClick={() => handleAppointmentClick(doctor)}
-              >
-                Đặt Lịch Hẹn
-              </button>
+              <div className="button-group">
+                <button
+                  className="view-details-btn"
+                  onClick={() => handleViewDetails(doctor)}
+                >
+                  Xem chi tiết
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -175,12 +128,14 @@ const Staff = () => {
 
       <section className="commitment-preview">
         <h2>Cam kết của chúng tôi</h2>
-        <ol>
-          <li>🎯 Chuyên nghiệp - Áp dụng kỹ thuật tiên tiến nhất</li>
-          <li>❤️ Tận tâm - Đồng hành suốt quá trình điều trị</li>
-          <li>🏆 Hiệu quả - Tỷ lệ thành công cao với chi phí hợp lý</li>
-          <li>🤝 Tin cậy - Minh bạch quy trình và chi phí</li>
-        </ol>
+        <ul>
+          <li>🎯 Chuyên nghiệp - Áp dụng kỹ thuật IUI và IVF tiên tiến</li>
+          <li>
+            ❤️ Tận tâm - Đồng hành cùng các cặp vợ chồng trên hành trình tìm con
+          </li>
+          <li>🏆 Hiệu quả - Tối ưu hóa tỷ lệ thành công IVF và IUI</li>
+          <li>🤝 Tin cậy - Minh bạch quy trình và chi phí điều trị</li>
+        </ul>
       </section>
 
       {/* Modal hiển thị chi tiết bác sĩ */}
@@ -202,109 +157,6 @@ const Staff = () => {
                   <li key={index}>{achievement}</li>
                 ))}
               </ul>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal đặt lịch hẹn */}
-      {showAppointmentModal && selectedDoctorForAppointment && (
-        <div className="modal-overlay" onClick={handleCloseModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={handleCloseModal}>
-              ×
-            </button>
-            <div className="appointment-form">
-              <h3>Đặt Lịch Hẹn với {selectedDoctorForAppointment.name}</h3>
-              <form onSubmit={handleSubmitAppointment}>
-                <div className="form-group">
-                  <label htmlFor="patientName">Họ tên *</label>
-                  <input
-                    type="text"
-                    id="patientName"
-                    name="patientName"
-                    value={appointmentData.patientName}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="patientPhone">Điện thoại *</label>
-                  <input
-                    type="tel"
-                    id="patientPhone"
-                    name="patientPhone"
-                    value={appointmentData.patientPhone}
-                    onChange={handleInputChange}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="patientAddress">Địa chỉ</label>
-                  <input
-                    type="text"
-                    id="patientAddress"
-                    name="patientAddress"
-                    value={appointmentData.patientAddress}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="appointmentDate">Ngày khám mong muốn *</label>
-                  <input
-                    type="date"
-                    id="appointmentDate"
-                    name="appointmentDate"
-                    value={appointmentData.appointmentDate}
-                    onChange={handleInputChange}
-                    min={today}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="appointmentTime">Giờ khám mong muốn</label>
-                  <select
-                    id="appointmentTime"
-                    name="appointmentTime"
-                    value={appointmentData.appointmentTime}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">Chọn giờ</option>
-                    <option value="08:00">08:00</option>
-                    <option value="09:00">09:00</option>
-                    <option value="10:00">10:00</option>
-                    <option value="11:00">11:00</option>
-                    <option value="14:00">14:00</option>
-                    <option value="15:00">15:00</option>
-                    <option value="16:00">16:00</option>
-                    <option value="17:00">17:00</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="patientNote">
-                    Nhu cầu khám bệnh (không bắt buộc)
-                  </label>
-                  <textarea
-                    id="patientNote"
-                    name="patientNote"
-                    value={appointmentData.patientNote}
-                    onChange={handleInputChange}
-                    placeholder="Mô tả triệu chứng hoặc nhu cầu khám..."
-                  />
-                </div>
-                <div className="form-buttons">
-                  <button type="submit" className="submit-btn">
-                    Đặt Lịch Hẹn
-                  </button>
-                  <button
-                    type="button"
-                    className="cancel-btn"
-                    onClick={handleCloseModal}
-                  >
-                    Hủy
-                  </button>
-                </div>
-              </form>
             </div>
           </div>
         </div>

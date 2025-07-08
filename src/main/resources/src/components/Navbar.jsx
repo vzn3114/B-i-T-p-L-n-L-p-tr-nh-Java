@@ -51,7 +51,15 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
-        <img src={logo} alt="Hiếm Muộn Care Logo" style={{ height: '40px', marginRight: '10px', verticalAlign: 'middle' }} />
+        <img
+          src={logo}
+          alt="Hiếm Muộn Care Logo"
+          style={{
+            height: "40px",
+            marginRight: "10px",
+            verticalAlign: "middle",
+          }}
+        />
         <Link to="/">Hiếm Muộn Care</Link>
       </div>
       <ul className="navbar-links">
@@ -116,9 +124,9 @@ const Navbar = () => {
                 <li>
                   <Link to="/customer/notifications">Thông báo</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/customer/profile">Thông tin cá nhân</Link>
-                </li>
+                </li> */}
                 <li>
                   <Link to="/customer/feedback">Đánh giá</Link>
                 </li>

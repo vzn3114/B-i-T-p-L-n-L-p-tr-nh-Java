@@ -235,16 +235,10 @@
   min-width: 140px;
 }
 
-.service-register-btn.primary {
+.service-register-btn.primary:hover {
   background: linear-gradient(135deg, #1976d2, #1565c0);
   color: white;
   box-shadow: 0 3px 12px rgba(25, 118, 210, 0.3);
-}
-
-.service-register-btn.primary:hover {
-  background: linear-gradient(135deg, #1565c0, #0d47a1);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(25, 118, 210, 0.4);
 }
 
 .service-register-btn.secondary {

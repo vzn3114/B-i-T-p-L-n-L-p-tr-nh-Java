@@ -155,9 +155,9 @@ const Services = () => {
         )}
 
         <div className="service-actions">
-          <Link to="/login" className="service-register-btn primary">
+          {/* <Link to="/login" className="service-register-btn primary">
             Đăng ký tư vấn
-          </Link>
+          </Link> */}
           <Link to="/contact" className="service-register-btn secondary">
             Liên hệ ngay
           </Link>
@@ -227,7 +227,7 @@ const Services = () => {
           cho bạn
         </p>
         <div className="cta-buttons">
-          <Link to="/register" className="cta-btn primary">
+          <Link to="/contact" className="cta-btn primary">
             📞 Đặt lịch tư vấn miễn phí
           </Link>
           <Link to="/introduction/doctors" className="cta-btn secondary">

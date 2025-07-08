@@ -188,12 +188,13 @@ const CustomerDashboard = () => {
           Xem thông báo điều trị
         </button>
 
-        <button
+        {/* <button
           className="dashboard-btn"
           onClick={() => navigate("/customer/profile")}
         >
           Cập nhật hồ sơ
-        </button>
+        </button> */}
+
         <button
           className="dashboard-btn"
           onClick={() => navigate("/customer/feedback")}
