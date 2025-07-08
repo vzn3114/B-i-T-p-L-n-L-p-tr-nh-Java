@@ -1,94 +1,113 @@
 package com.fertilitycare.backend.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
+     import java.util.List;
+     import java.util.Map;
+     import java.util.stream.Collectors;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+     import org.springframework.http.ResponseEntity;
+     import org.springframework.security.access.prepost.PreAuthorize;
+     import org.springframework.security.core.Authentication;
+     import org.springframework.web.bind.annotation.CrossOrigin;
+     import org.springframework.web.bind.annotation.GetMapping;
+     import org.springframework.web.bind.annotation.PostMapping;
+     import org.springframework.web.bind.annotation.PutMapping;
+     import org.springframework.web.bind.annotation.PathVariable;
+     import org.springframework.web.bind.annotation.RequestBody;
+     import org.springframework.web.bind.annotation.RequestMapping;
+     import org.springframework.web.bind.annotation.RestController;
 
-import com.fertilitycare.backend.DTO.TreatmentDTO;
-import com.fertilitycare.backend.entity.Treatment;
-import com.fertilitycare.backend.entity.User;
-import com.fertilitycare.backend.repository.UserRepository;
-import com.fertilitycare.backend.service.TreatmentService;
+     import com.fertilitycare.backend.DTO.TreatmentDTO;
+     import com.fertilitycare.backend.entity.Treatment;
+     import com.fertilitycare.backend.entity.User;
+     import com.fertilitycare.backend.repository.UserRepository;
+     import com.fertilitycare.backend.service.TreatmentService;
 
-@RestController
-@RequestMapping("/api/treatments")
-@CrossOrigin(origins = "*")
-public class TreatmentController {
+     import org.slf4j.Logger;
+     import org.slf4j.LoggerFactory;
 
-    private final TreatmentService treatmentService;
-    private final UserRepository userRepo;
+     @RestController
+     @RequestMapping("/api/treatments")
+     @CrossOrigin(origins = "*")
+     public class TreatmentController {
 
-    public TreatmentController(TreatmentService treatmentService, UserRepository userRepo) {
-        this.treatmentService = treatmentService;
-        this.userRepo = userRepo;
-    }
+         private static final Logger logger = LoggerFactory.getLogger(TreatmentController.class);
 
-    @PostMapping
-    @PreAuthorize("hasRole('DOCTOR') or hasRole('ADMIN')")
-    public Treatment createTreatment(@RequestBody Treatment treatment, Authentication authentication) {
-        String username = authentication.getName();
-        User currentUser = userRepo.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-        treatment.setCustomer(currentUser);
+         private final TreatmentService treatmentService;
+         private final UserRepository userRepo;
 
-        if (treatment.getDoctor() != null && treatment.getDoctor().getId() != null) {
-            User doctor = userRepo.findById(treatment.getDoctor().getId())
-                    .orElseThrow(() -> new RuntimeException("Doctor not found"));
-            treatment.setDoctor(doctor);
-        }
+         public TreatmentController(TreatmentService treatmentService, UserRepository userRepo) {
+             this.treatmentService = treatmentService;
+             this.userRepo = userRepo;
+         }
 
-        return treatmentService.create(treatment);
-    }
+         @PostMapping
+         @PreAuthorize("hasRole('DOCTOR') or hasRole('ADMIN')")
+         public Treatment createTreatment(@RequestBody Treatment treatment, Authentication authentication) {
+             String username = authentication.getName();
+             User currentUser = userRepo.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+             treatment.setCustomer(currentUser);
 
-    @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<Treatment> getAllTreatments() {
-        return treatmentService.getAll();
-    }
+             if (treatment.getDoctor() != null && treatment.getDoctor().getId() != null) {
+                 User doctor = userRepo.findById(treatment.getDoctor().getId())
+                         .orElseThrow(() -> new RuntimeException("Doctor not found"));
+                 treatment.setDoctor(doctor);
+             }
 
-    @GetMapping("/me")
-    @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<List<TreatmentDTO>> getMyTreatments(Authentication authentication) {
-        String username = authentication.getName();
-        User currentUser = userRepo.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-        List<Treatment> treatments = treatmentService.getByCustomer(currentUser);
-        List<TreatmentDTO> dtos = treatments.stream().map(treatment -> new TreatmentDTO(
-            treatment.getId(),
-            treatment.getMethod(),
-            treatment.getStatus(),
-            treatment.getStartDate() != null ? treatment.getStartDate().toString() : null,
-            treatment.getPhase(),
-            treatment.getService() != null ? treatment.getService().getName() : "N/A",
-            treatment.getDoctor() != null ? treatment.getDoctor().getFullName() : "N/A"
-        )).collect(Collectors.toList());
-        return ResponseEntity.ok(dtos);
-    }
+             return treatmentService.create(treatment);
+         }
 
-    @GetMapping("/doctor/me")
-    @PreAuthorize("hasRole('DOCTOR')")
-    public ResponseEntity<List<Treatment>> getTreatmentsForDoctor(Authentication authentication) {
-        String username = authentication.getName();
-        User currentDoctor = userRepo.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-        return ResponseEntity.ok(treatmentService.getByDoctor(currentDoctor));
-    }
+         @GetMapping
+         @PreAuthorize("hasRole('ADMIN')")
+         public List<Treatment> getAllTreatments() {
+             return treatmentService.getAll();
+         }
 
-    @GetMapping("/statistics/status")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<Object[]> statsByStatus() {
-        return treatmentService.getStatisticsByStatus();
-    }
+         @GetMapping("/me")
+         @PreAuthorize("hasRole('CUSTOMER')")
+         public ResponseEntity<List<TreatmentDTO>> getMyTreatments(Authentication authentication) {
+             String username = authentication.getName();
+             logger.info("Username from token: {}", username);
+             User currentUser = userRepo.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+             logger.info("User ID: {}", currentUser.getId());
+             List<Treatment> treatments = treatmentService.getByCustomer(currentUser);
+             logger.info("Number of treatments found: {}", treatments.size());
+             List<TreatmentDTO> dtos = treatments.stream().map(treatment -> new TreatmentDTO(
+                 treatment.getId(),
+                 treatment.getMethod(),
+                 treatment.getStatus(),
+                 treatment.getStartDate() != null ? treatment.getStartDate().toString() : null,
+                 treatment.getPhase(),
+                 treatment.getService() != null ? treatment.getService().getName() : "N/A",
+                 treatment.getDoctor() != null ? treatment.getDoctor().getFullName() : "N/A"
+             )).collect(Collectors.toList());
+             return ResponseEntity.ok(dtos);
+         }
 
-    @GetMapping("/statistics/method")
-    @PreAuthorize("hasRole('ADMIN')")
-    public List<Object[]> statsByMethod() {
-        return treatmentService.getStatisticsByMethod();
-    }
-}
+         @GetMapping("/doctor/me")
+         @PreAuthorize("hasRole('DOCTOR')")
+         public ResponseEntity<List<Treatment>> getTreatmentsForDoctor(Authentication authentication) {
+             String username = authentication.getName();
+             User currentDoctor = userRepo.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
+             return ResponseEntity.ok(treatmentService.getByDoctor(currentDoctor));
+         }
+
+         @GetMapping("/statistics/status")
+         @PreAuthorize("hasRole('ADMIN')")
+         public List<Object[]> statsByStatus() {
+             return treatmentService.getStatisticsByStatus();
+         }
+
+         @GetMapping("/statistics/method")
+         @PreAuthorize("hasRole('ADMIN')")
+         public List<Object[]> statsByMethod() {
+             return treatmentService.getStatisticsByMethod();
+         }
+
+         @PutMapping("/{id}/status")
+         @PreAuthorize("hasRole('DOCTOR') or hasRole('ADMIN')")
+         public ResponseEntity<Treatment> updateTreatmentStatus(@PathVariable Long id, @RequestBody Map<String, String> body) {
+             String newStatus = body.get("status");
+             Treatment updated = treatmentService.updateStatus(id, newStatus);
+             return ResponseEntity.ok(updated);
+         }
+     }

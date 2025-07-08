@@ -17,7 +17,7 @@
   margin-bottom: 1rem;
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.12);
 }
-.dashboard-status h3 {
+/* .dashboard-status h3 {
   color: #1976d2;
   margin-bottom: 1rem;
 }
@@ -32,7 +32,8 @@
 }
 .status-icon {
   font-size: 2rem;
-}
+} */
+
 .dashboard-actions {
   display: flex;
   gap: 1rem;
@@ -52,4 +53,4 @@
 }
 .dashboard-btn:hover {
   background: #1565c0;
-} 
+}

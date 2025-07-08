@@ -1,109 +1,178 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../../static/assets/CustomerDashboard.css";
+import axios from "axios";
 
 const CustomerDashboard = () => {
   const navigate = useNavigate();
-  const [username, setUsername] = useState(null);
-  const [treatment, setTreatment] = useState(null);
-  const [appointment, setAppointment] = useState(null);
+  const [user, setUser] = useState(null);
+  const [treatments, setTreatments] = useState([]);
+  const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Giả sử user_id được lấy từ context, token, hoặc route params
-  const userId = 3; // Thay bằng cách lấy user_id động (ví dụ: từ auth context)
+  const token = localStorage.getItem("token");
+  const userRole = localStorage.getItem("role");
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    navigate("/login");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Lấy thông tin người dùng
-        const userResponse = await fetch(
-          `http://localhost:8080/api/customer/${userId}`
-        );
-        if (!userResponse.ok)
-          throw new Error("Lỗi khi lấy thông tin người dùng");
-        const userData = await userResponse.json();
-        setUsername(userData);
+        if (!token) {
+          throw new Error("Vui lòng đăng nhập để xem bảng điều khiển.");
+        }
 
-        // Lấy trạng thái điều trị
-        const treatmentResponse = await fetch(
-          `http://localhost:8080/api/customer/${userId}/treatments`
-        );
-        if (!treatmentResponse.ok)
-          throw new Error("Lỗi khi lấy thông tin điều trị");
-        const treatmentData = await treatmentResponse.json();
-        setTreatment(treatmentData[0]);
+        const axiosInstance = axios.create({
+          baseURL: "http://localhost:8080/api",
+          headers: { Authorization: `Bearer ${token}` },
+        });
 
-        // Lấy lịch hẹn sắp tới
-        const appointmentResponse = await fetch(
-          `http://localhost:8080/api/customer/${userId}/appointments`
-        );
-        if (!appointmentResponse.ok)
-          throw new Error("Lỗi khi lấy thông tin lịch hẹn");
-        const appointmentData = await appointmentResponse.json();
-        setAppointment(appointmentData);
+        const userResponse = await axiosInstance.get("/users/me");
+        setUser(userResponse.data);
+
+        if (userRole !== "CUSTOMER") {
+          throw new Error(
+            "Truy cập bị từ chối: Bảng điều khiển này chỉ dành cho khách hàng."
+          );
+        }
+
+        const treatmentResponse = await axiosInstance.get("/treatments/me");
+        setTreatments(treatmentResponse.data);
+
+        const appointmentResponse = await axiosInstance.get("/appointments/me");
+        setAppointments(appointmentResponse.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error(
+          "Lỗi khi lấy dữ liệu:",
+          error.response ? error.response.data : error.message
+        );
+        if (error.response?.status === 401) {
+          setError("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.");
+          setTimeout(handleLogout, 2000);
+        } else if (error.response?.status === 403) {
+          setError("Truy cập bị từ chối. Vui lòng liên hệ quản trị viên.");
+        } else {
+          setError(
+            error.message || "Lỗi khi lấy dữ liệu. Vui lòng thử lại sau."
+          );
+        }
       } finally {
         setLoading(false);
       }
     };
-    fetchData();
-  }, [userId]);
+
+    if (token) {
+      fetchData();
+    } else {
+      setError("Vui lòng đăng nhập để xem bảng điều khiển.");
+      setLoading(false);
+    }
+  }, [token, navigate]);
 
   if (loading) {
-    return <div>Đang tải...</div>;
+    return (
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Đang tải...</p>
+      </div>
+    );
   }
+
+  if (error) {
+    return (
+      <div className="error-container">
+        <p className="error-message">{error}</p>
+        <button className="error-button" onClick={handleLogout}>
+          Đăng nhập
+        </button>
+      </div>
+    );
+  }
+
+  const latestTreatment =
+    treatments.length > 0
+      ? treatments.sort(
+          (a, b) => new Date(b.startDate) - new Date(a.startDate)
+        )[0]
+      : null;
+
+  const nextAppointment =
+    appointments.length > 0
+      ? appointments
+          .filter((appt) => appt.status === "SCHEDULED")
+          .sort(
+            (a, b) => new Date(a.appointmentTime) - new Date(b.appointmentTime)
+          )[0]
+      : null;
 
   return (
     <div className="customer-dashboard">
-      {/* Phần header */}
       <div className="dashboard-header">
         <img src="/logo192.png" alt="avatar" className="dashboard-avatar" />
-        <h2>
-          Xin chào, {username?.full_name || "Khách hàng"}!{" "}
+        <h2 className="dashboard-title">
+          Xin chào, {user?.fullName || "Khách hàng"}!{" "}
           <span role="img" aria-label="wave">
             👋
           </span>
         </h2>
-        <p>Chúc bạn một ngày tốt lành và điều trị thành công!</p>
+        <p className="dashboard-subtitle">
+          Chúc bạn một ngày tốt lành và điều trị thành công!
+        </p>
       </div>
 
-      {/* Phần trạng thái */}
-      <div className="dashboard-status">
-        <h3>Trạng thái điều trị</h3>
-
-        {treatment ? (
+      {/* <div className="dashboard-status">
+        <h3 className="status-title">Trạng thái điều trị</h3>
+        <div className="status-grid">
           <div className="status-card">
             <span className="status-icon">🩺</span>
-            <div>
-              <strong>Đang điều trị:</strong> {treatment.method} -{" "}
-              {treatment.service_name}
-              <br />
-              <small>
-                Ngày bắt đầu:{" "}
-                {new Date(treatment.start_date).toLocaleDateString("vi-VN")}
-              </small>
+            <div className="status-content">
+              <h4>Điều trị hiện tại</h4>
+              {latestTreatment ? (
+                <>
+                  <p className="status-primary">
+                    {latestTreatment.method} - {latestTreatment.serviceName}
+                  </p>
+                  <p className="status-secondary">
+                    Bắt đầu:{" "}
+                    {new Date(latestTreatment.startDate).toLocaleDateString(
+                      "vi-VN"
+                    )}
+                  </p>
+                </>
+              ) : (
+                <p className="status-empty">Chưa có thông tin điều trị.</p>
+              )}
             </div>
           </div>
-        ) : (
-          <div>Chưa có thông tin điều trị.</div>
-        )}
 
-        {appointment ? (
           <div className="status-card">
             <span className="status-icon">📅</span>
-            <div>
-              <strong>Lịch hẹn tiếp theo:</strong>{" "}
-              {new Date(appointment.appointment_time).toLocaleString("vi-VN")} -{" "}
-              {appointment.service_name}
+            <div className="status-content">
+              <h4>Lịch hẹn tiếp theo</h4>
+              {nextAppointment ? (
+                <>
+                  <p className="status-primary">
+                    {new Date(nextAppointment.appointmentTime).toLocaleString(
+                      "vi-VN"
+                    )}
+                  </p>
+                  <p className="status-secondary">
+                    {nextAppointment.serviceName}
+                  </p>
+                </>
+              ) : (
+                <p className="status-empty">Chưa có lịch hẹn sắp tới.</p>
+              )}
             </div>
           </div>
-        ) : (
-          <div>Chưa có lịch hẹn sắp tới.</div>
-        )}
-      </div>
+        </div>
+      </div> */}
 
-      {/* Phần hành động */}
       <div className="dashboard-actions">
         <button
           className="dashboard-btn"
@@ -111,6 +180,14 @@ const CustomerDashboard = () => {
         >
           Xem timeline điều trị
         </button>
+
+        <button
+          className="dashboard-btn"
+          onClick={() => navigate("/customer/timeline")}
+        >
+          Xem thông báo điều trị
+        </button>
+
         <button
           className="dashboard-btn"
           onClick={() => navigate("/customer/profile")}

@@ -21,4 +21,6 @@ public interface TreatmentService {
     List<Object[]> getStatisticsByStatus();
 
     List<Object[]> getStatisticsByMethod();
+
+    Treatment updateStatus(Long id, String status);
 }
