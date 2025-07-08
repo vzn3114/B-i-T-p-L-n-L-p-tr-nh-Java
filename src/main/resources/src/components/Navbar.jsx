@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "../static/assets/Navbar.css";
+import logo from "../static/images/image.png";
 
 const Navbar = () => {
   const location = useLocation();
@@ -50,6 +51,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="navbar-logo">
+        <img src={logo} alt="Hiếm Muộn Care Logo" style={{ height: '40px', marginRight: '10px', verticalAlign: 'middle' }} />
         <Link to="/">Hiếm Muộn Care</Link>
       </div>
       <ul className="navbar-links">
