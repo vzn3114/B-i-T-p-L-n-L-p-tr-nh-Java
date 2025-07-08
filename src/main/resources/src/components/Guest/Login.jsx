@@ -26,7 +26,7 @@ function Login() {
 
       const data = JSON.parse(text);
       localStorage.setItem("token", data.token);
-      localStorage.setItem("role", data.role);
+      localStorage.setItem("userRole", data.role);
 
       // Điều hướng theo role
       switch (data.role) {

@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fertilitycare.backend.DTO.AppointmentStatsDTO;
 import com.fertilitycare.backend.DTO.AppointmentDTO;
+import com.fertilitycare.backend.DTO.AppointmentStatsDTO;
 import com.fertilitycare.backend.entity.Appointment;
 import com.fertilitycare.backend.entity.User;
 import com.fertilitycare.backend.repository.UserRepository;
@@ -27,7 +27,7 @@ import com.fertilitycare.backend.service.AppointmentService;
 
 @RestController
 @RequestMapping("/api/appointments")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AppointmentController {
 
     private final AppointmentService appointmentService;
@@ -120,12 +120,6 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.getStatisticsByDate());
     }
 
-    @GetMapping("/stats/by-service")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<AppointmentStatsDTO>> getStatsByService() {
-        return ResponseEntity.ok(appointmentService.getStatsByService());
-    }
-
     @PutMapping("/{appointmentId}/doctor-note")
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<?> updateDoctorNote(
@@ -136,5 +130,11 @@ public class AppointmentController {
         String note = body.get("note");
         appointmentService.updateDoctorNote(appointmentId, note, doctor);
         return ResponseEntity.ok("Cập nhật kết quả khám thành công");
+    }
+
+    @GetMapping("/stats")
+    @PreAuthorize("hasRole('ADMIN')")
+    public AppointmentStatsDTO getStats() {
+        return appointmentService.getAppointmentStats();
     }
 }

@@ -19,7 +19,7 @@ import com.fertilitycare.backend.service.InfertilityServiceService;
 
 @RestController
 @RequestMapping("/api/services")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class InfertilityServiceController {
 
     private final InfertilityServiceService service;

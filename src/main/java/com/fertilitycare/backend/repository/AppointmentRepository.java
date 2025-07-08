@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import com.fertilitycare.backend.DTO.AppointmentStatsDTO;
 import com.fertilitycare.backend.entity.Appointment;
 import com.fertilitycare.backend.entity.User;
 
@@ -22,7 +21,10 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("SELECT DATE(a.appointmentTime), COUNT(a) FROM Appointment a GROUP BY DATE(a.appointmentTime)")
     List<Object[]> countAppointmentsByDate();
 
-    @Query("SELECT new com.fertilitycare.backend.DTO.AppointmentStatsDTO(a.service.name, COUNT(a)) FROM Appointment a GROUP BY a.service.name")
-    List<AppointmentStatsDTO> countAppointmentsByService();
+    @Query("SELECT COUNT(a) FROM Appointment a WHERE a.service.name = :method")
+    long countByServiceMethod(@org.springframework.data.repository.query.Param("method") String method);
+
+    @Query("SELECT COUNT(a) FROM Appointment a WHERE a.status = :status")
+    long countByStatus(@org.springframework.data.repository.query.Param("status") String status);
 
 }

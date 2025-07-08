@@ -27,6 +27,6 @@ public interface AppointmentService {
 
     void updateDoctorNote(Long appointmentId, String note, User doctor);
 
-    List<AppointmentStatsDTO> getStatsByService();
+    AppointmentStatsDTO getAppointmentStats();
 
 }
