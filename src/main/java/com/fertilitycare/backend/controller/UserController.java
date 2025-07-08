@@ -24,7 +24,7 @@ import com.fertilitycare.backend.service.UserService;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     private final UserService userService;
@@ -38,6 +38,20 @@ public class UserController {
     @PostMapping("/register/{role}")
     public User register(@RequestBody User user, @PathVariable String role) {
         return userService.registerUser(user, role.toUpperCase());
+    }
+
+    @PostMapping("/register/customer")
+    public ResponseEntity<?> registerCustomer(@RequestBody User user) {
+        Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
+        if (userByUsername.isPresent()) {
+            return ResponseEntity.badRequest().body("Username đã tồn tại!");
+        }
+        Optional<User> userByEmail = userRepository.findByEmail(user.getEmail());
+        if (userByEmail.isPresent()) {
+            return ResponseEntity.badRequest().body("Email đã tồn tại!");
+        }
+        userService.registerUser(user, "CUSTOMER");
+        return ResponseEntity.ok("Đăng ký thành công!");
     }
 
     @GetMapping("/me")
