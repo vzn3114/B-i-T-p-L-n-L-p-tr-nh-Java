@@ -1,64 +1,169 @@
 .user-management-container {
-  max-width: 900px;
-  margin: 2rem auto;
   background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(25, 118, 210, 0.08);
-  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+  padding: 32px 24px;
+  margin: 32px auto;
+  max-width: 1100px;
 }
 .user-management-container h2 {
-  color: #1976d2;
-  text-align: center;
-  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 24px;
 }
 .user-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 .user-table th, .user-table td {
-  padding: 0.7rem 0.5rem;
-  text-align: center;
+  padding: 14px 16px;
+  text-align: left;
+}
+.user-table thead {
+  background: #f7f8fa;
 }
 .user-table th {
-  background: #e3f2fd;
-  color: #1976d2;
+  font-weight: 600;
+  color: #222;
+  font-size: 1rem;
+}
+.user-table tbody tr {
+  transition: background 0.2s;
+}
+.user-table tbody tr:hover {
+  background: #f3f6fa;
 }
 .user-avatar {
   width: 40px;
   height: 40px;
   border-radius: 50%;
   object-fit: cover;
-  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.12);
+  border: 2px solid #e5e7eb;
 }
-.status {
-  padding: 0.3rem 0.8rem;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 0.98rem;
+.role-badge, .status {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 12px;
+  font-size: 0.95em;
+  font-weight: 500;
+  margin-right: 6px;
+  margin-bottom: 2px;
+}
+.role-badge.manager {
+  background: #ffe9b0;
+  color: #b88a00;
+}
+.role-badge.admin {
+  background: #d1f2eb;
+  color: #117a65;
+}
+.role-badge.auditor {
+  background: #e8eaf6;
+  color: #283593;
+}
+.role-badge.customer {
+  background: #e0f7fa;
+  color: #00838f;
 }
 .status.active {
-  background: #e8f5e9;
-  color: #388e3c;
+  background: #e6f9e7;
+  color: #219653;
 }
 .status.inactive {
-  background: #ffebee;
-  color: #d32f2f;
+  background: #fbe9e7;
+  color: #d84315;
+}
+.status.not-logged {
+  background: #fff3cd;
+  color: #b88a00;
 }
 .role-btn, .delete-btn {
-  background: #1976d2;
-  color: #fff;
   border: none;
-  padding: 0.5rem 1.2rem;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: bold;
-  margin: 0 0.2rem;
+  outline: none;
+  border-radius: 8px;
+  padding: 7px 18px;
+  font-size: 1em;
+  font-weight: 500;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.role-btn {
+  background: #f7f8fa;
+  color: #222;
+}
+.role-btn:hover {
+  background: #e0e7ff;
+  color: #283593;
+}
+.delete-btn {
+  background: #fbe9e7;
+  color: #d84315;
+}
+.delete-btn:hover {
+  background: #ffebee;
+  color: #b71c1c;
+}
+.user-management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.search-user-input {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  font-size: 1em;
+  width: 240px;
+  margin-right: 12px;
+}
+.add-user-btn {
+  background: #ffd600;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 22px;
+  font-weight: 600;
+  font-size: 1em;
   cursor: pointer;
   transition: background 0.2s;
 }
-.role-btn:hover {
-  background: #388e3c;
+.add-user-btn:hover {
+  background: #ffe082;
 }
-.delete-btn:hover {
-  background: #d32f2f;
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 24px;
+  gap: 6px;
+}
+.pagination-btn, .pagination-page {
+  background: #f7f8fa;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 14px;
+  font-size: 1em;
+  cursor: pointer;
+  color: #222;
+  transition: background 0.2s;
+}
+.pagination-btn:hover, .pagination-page.active {
+  background: #e0e7ff;
+  color: #283593;
+}
+@media (max-width: 800px) {
+  .user-management-container {
+    padding: 12px 2px;
+  }
+  .user-table th, .user-table td {
+    padding: 8px 6px;
+    font-size: 0.95em;
+  }
 } 
