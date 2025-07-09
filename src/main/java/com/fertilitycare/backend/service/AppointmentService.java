@@ -29,4 +29,5 @@ public interface AppointmentService {
 
     AppointmentStatsDTO getAppointmentStats();
 
+    List<Appointment> getByDoctorId(Long doctorId);
 }

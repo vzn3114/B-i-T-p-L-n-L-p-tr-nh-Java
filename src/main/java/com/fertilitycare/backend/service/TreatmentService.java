@@ -2,6 +2,7 @@ package com.fertilitycare.backend.service;
 
 import java.util.List;
 
+import com.fertilitycare.backend.DTO.PatientDTO;
 import com.fertilitycare.backend.entity.Treatment;
 import com.fertilitycare.backend.entity.User;
 
@@ -23,4 +24,6 @@ public interface TreatmentService {
     List<Object[]> getStatisticsByMethod();
 
     Treatment updateStatus(Long id, String status);
+
+    List<PatientDTO> getPatientsByDoctorId(Long doctorId);
 }

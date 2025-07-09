@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fertilitycare.backend.DTO.PatientDTO;
 import com.fertilitycare.backend.DTO.TreatmentDTO;
 import com.fertilitycare.backend.entity.Treatment;
 import com.fertilitycare.backend.entity.User;
@@ -103,5 +104,10 @@ public class TreatmentController {
         String newStatus = body.get("status");
         Treatment updated = treatmentService.updateStatus(id, newStatus);
         return ResponseEntity.ok(updated);
+    }
+
+    @GetMapping("/doctor/{doctorId}/patients")
+    public List<PatientDTO> getPatientsByDoctor(@PathVariable Long doctorId) {
+        return treatmentService.getPatientsByDoctorId(doctorId);
     }
 }

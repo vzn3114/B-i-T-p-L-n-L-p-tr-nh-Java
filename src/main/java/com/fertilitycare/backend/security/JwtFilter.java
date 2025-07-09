@@ -42,6 +42,7 @@ package com.fertilitycare.backend.security;
          protected void doFilterInternal(HttpServletRequest request,
                  HttpServletResponse response,
                  FilterChain filterChain) throws ServletException, IOException {
+             System.out.println("[JwtFilter] Authorization header: " + request.getHeader("Authorization"));
              final String authHeader = request.getHeader("Authorization");
              final String token;
              final String username;

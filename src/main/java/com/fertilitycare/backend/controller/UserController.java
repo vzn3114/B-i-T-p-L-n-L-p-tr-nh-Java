@@ -2,6 +2,8 @@ package com.fertilitycare.backend.controller;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,7 +19,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fertilitycare.backend.DTO.PatientDTO;
+import com.fertilitycare.backend.entity.InfertilityService;
+import com.fertilitycare.backend.entity.Treatment;
 import com.fertilitycare.backend.entity.User;
+import com.fertilitycare.backend.repository.AppointmentRepository;
+import com.fertilitycare.backend.repository.InfertilityServiceRepository;
+import com.fertilitycare.backend.repository.TreatmentRepository;
 import com.fertilitycare.backend.repository.UserRepository;
 import com.fertilitycare.backend.service.UserService;
 
@@ -28,10 +36,18 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private final TreatmentRepository treatmentRepository;
+    private final AppointmentRepository appointmentRepository;
+    private final InfertilityServiceRepository infertilityServiceRepository;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService, UserRepository userRepository,
+            TreatmentRepository treatmentRepository, AppointmentRepository appointmentRepository,
+            InfertilityServiceRepository infertilityServiceRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.treatmentRepository = treatmentRepository;
+        this.appointmentRepository = appointmentRepository;
+        this.infertilityServiceRepository = infertilityServiceRepository;
     }
 
     @PostMapping("/register/{role}")
@@ -103,5 +119,31 @@ public class UserController {
     @GetMapping("/filter/role")
     public ResponseEntity<List<User>> filterByRole(@RequestParam String role) {
         return ResponseEntity.ok(userService.filterByRole(role));
+    }
+
+    @GetMapping("/doctor/{doctorId}/customers")
+    public List<PatientDTO> getCustomersByDoctor(@PathVariable Long doctorId) {
+        Optional<User> doctorOpt = userRepository.findById(doctorId);
+        if (doctorOpt.isEmpty())
+            return List.of();
+        User doctor = doctorOpt.get();
+        List<Treatment> treatments = treatmentRepository.findByDoctor(doctor);
+        Set<User> customers = treatments.stream()
+                .map(Treatment::getCustomer)
+                .collect(Collectors.toSet());
+        List<PatientDTO> result = customers.stream().map(u -> {
+            Treatment latestTreatment = treatmentRepository.findTopByCustomerOrderByStartDateDesc(u);
+            String serviceName = null;
+            java.time.LocalDate startDate = null;
+            String status = null;
+            if (latestTreatment != null && latestTreatment.getService() != null) {
+                InfertilityService service = latestTreatment.getService();
+                serviceName = service.getName();
+                startDate = latestTreatment.getStartDate();
+                status = latestTreatment.getStatus();
+            }
+            return new PatientDTO(u.getId(), u.getUsername(), u.getFullName(), u.getEmail(), serviceName, startDate, status);
+        }).collect(Collectors.toList());
+        return result;
     }
 }

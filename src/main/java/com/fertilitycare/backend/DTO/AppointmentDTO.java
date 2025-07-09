@@ -2,9 +2,9 @@ package com.fertilitycare.backend.DTO;
 
 public record AppointmentDTO(
     Long id,
-    String appointmentTime,
+    String patientName,
+    String email,
     String serviceName,
-    String appointmentType,
-    String doctorName,
+    String appointmentTime,
     String status
 ) {}

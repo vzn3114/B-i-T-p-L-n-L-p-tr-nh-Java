@@ -1,5 +1,19 @@
 import React, { useState } from "react";
 import "../../static/assets/Login.css";
+import axios from "axios";
+
+const handleLogin = async (username, password) => {
+  try {
+    const res = await axios.post("/login", { username, password });
+    // TTrả về { token: "..." }
+    localStorage.setItem("token", res.data.token);
+    // Lưu thêm doctorId
+    localStorage.setItem("doctorId", res.data.userId);
+    // Chuyển hướng hoặc reload lại trang
+  } catch (err) {
+    alert("Đăng nhập thất bại!");
+  }
+};
 
 function Login() {
   const [username, setUsername] = useState("");

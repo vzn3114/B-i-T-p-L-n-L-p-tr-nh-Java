@@ -43,13 +43,16 @@ public class SecurityConfig {
                         // Cho phép DOCTOR truy cập các endpoint của bác sĩ
                         .requestMatchers("/api/treatments/doctor/me").hasRole("DOCTOR")
                         .requestMatchers("/api/appointments/doctor/me").hasRole("DOCTOR")
-                        // ADMIN quản lý tất cả users và các endpoint khác
+                        // Cho phép ADMIN quản lý tất cả users và các endpoint khác
+                        .requestMatchers("/api/users/doctor/**").hasAnyRole("ADMIN", "DOCTOR", "MANAGER")
                         .requestMatchers("/api/users/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/services/**").hasAnyRole("ADMIN", "CUSTOMER", "DOCTOR")
                         .requestMatchers(HttpMethod.PUT, "/api/services/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/services/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/appointments/**").hasAnyRole("DOCTOR", "ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/appointment-requests").authenticated()
+                        .requestMatchers("/api/users/customer/**").hasAnyRole("ADMIN", "DOCTOR", "MANAGER")
+                        .requestMatchers("/api/users/doctor/**").hasAnyRole("ADMIN", "DOCTOR", "MANAGER")
+
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider())
@@ -75,5 +78,4 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    
 }

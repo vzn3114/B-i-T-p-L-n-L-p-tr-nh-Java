@@ -19,4 +19,6 @@ public interface TreatmentRepository extends JpaRepository<Treatment, Long> {
 
     @Query("SELECT t.method, COUNT(t) FROM Treatment t GROUP BY t.method")
     List<Object[]> countByMethod();
+
+    Treatment findTopByCustomerOrderByStartDateDesc(User customer);
 }

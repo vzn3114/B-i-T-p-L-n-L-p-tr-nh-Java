@@ -106,4 +106,8 @@ public class AppointmentServiceImpl implements AppointmentService {
         return new AppointmentStatsDTO(totalAppointments, totalIUI, totalIVF, successRate);
     }
 
+    @Override
+    public List<Appointment> getByDoctorId(Long doctorId) {
+        return repository.findByDoctorId(doctorId);
+    }
 }

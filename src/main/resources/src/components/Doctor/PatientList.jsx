@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import DoctorNavbar from "./Navbar";
 import "../../static/assets/PatientList.css";
-import { patients, examinationRecords, treatmentPlans } from "./patientData";
 
 const PatientList = () => {
   const [selectedService, setSelectedService] = useState("all");
@@ -16,62 +16,139 @@ const PatientList = () => {
     hormones: "",
     ultrasound: "",
     medicationReaction: "",
-    clinicalProgress: ""
+    clinicalProgress: "",
   });
   const [treatmentPlan, setTreatmentPlan] = useState({
     nextInjection: "",
     nextAppointment: "",
-    notes: ""
+    notes: "",
   });
   const [prescriptionData, setPrescriptionData] = useState({
     patientId: "",
     treatmentService: "IUI",
-    startDate: new Date().toISOString().split('T')[0],
+    startDate: new Date().toISOString().split("T")[0],
     medicationProtocol: "",
-    doctorNotes: ""
+    doctorNotes: "",
+  });
+  const [patients, setPatients] = useState([]);
+  const [examinationRecords, setExaminationRecords] = useState([]);
+  const [treatmentPlans, setTreatmentPlans] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPatients = async () => {
+      setLoading(true);
+      try {
+        const doctorId = localStorage.getItem("doctorId") || 2;
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`/api/users/doctor/${doctorId}/customers`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setPatients(res.data);
+        console.log("Danh sách bệnh nhân:", res.data);
+      } catch (err) {
+        setError("Lỗi khi lấy danh sách bệnh nhân");
+        console.error(err);
+      }
+      setLoading(false);
+    };
+    fetchPatients();
+  }, []);
+
+  const filteredPatients = patients.filter((patient) => {
+    return (
+      (!selectedService || selectedService === "all") && (!selectedDate || true) // Không filter theo ngày khám nữa
+    );
   });
 
-
-  const filteredPatients = patients.filter(patient => {
-    const serviceMatch = selectedService === "all" || patient.service === selectedService;
-    const dateMatch = !selectedDate || patient.appointmentDate === selectedDate;
-    return serviceMatch && dateMatch;
-  });
-
-  const handleExaminationRecord = (patient) => {
+  const handleExaminationRecord = async (patient) => {
     setSelectedPatient(patient);
     setShowExaminationModal(true);
+    try {
+      const res = await axios.get(`/api/examinations/customer/${patient.id}`);
+      setExaminationRecords(res.data);
+      console.log(`Hồ sơ thăm khám của ${patient.fullName}:`, res.data);
+    } catch (err) {
+      setError("Lỗi khi lấy hồ sơ thăm khám");
+      console.error(err);
+    }
   };
 
-  const handleTreatmentUpdate = (patient) => {
+  const handleTreatmentUpdate = async (patient) => {
     setSelectedPatient(patient);
     setShowTreatmentModal(true);
+    try {
+      // Lấy treatment của customer
+      const res = await axios.get(`/api/treatments?customerId=${patient.id}`);
+      if (res.data && res.data.length > 0) {
+        const treatment = res.data[0]; // lấy treatment mới nhất
+        // Lấy treatment update
+        const updateRes = await axios.get(
+          `/api/treatment-updates/treatment/${treatment.id}`
+        );
+        setTreatmentPlans(updateRes.data);
+        console.log(
+          `Kế hoạch điều trị của ${patient.fullName}:`,
+          updateRes.data
+        );
+      }
+    } catch (err) {
+      setError("Lỗi khi lấy kế hoạch điều trị");
+      console.error(err);
+    }
   };
 
-  const handleExaminationSubmit = (e) => {
+  const handleExaminationSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
-    console.log("Examination data for patient:", selectedPatient.name, examinationData);
-    setShowExaminationModal(false);
-    setExaminationData({
-      betaHCG: "",
-      hormones: "",
-      ultrasound: "",
-      medicationReaction: "",
-      clinicalProgress: ""
-    });
+    try {
+      const payload = {
+        patientId: selectedPatient.id,
+        doctorId: 2, // hoặc lấy từ localStorage
+        appointmentId: null, // hoặc lấy id lịch hẹn nếu có
+        date: new Date().toISOString(),
+        ...examinationData,
+      };
+      const res = await axios.post("/api/examinations", payload);
+      console.log("Ghi nhận thăm khám thành công:", res.data);
+      setShowExaminationModal(false);
+      // Reload lại hồ sơ thăm khám
+      const reload = await axios.get(
+        `/api/examinations/customer/${selectedPatient.id}`
+      );
+      setExaminationRecords(reload.data);
+    } catch (err) {
+      setError("Lỗi khi ghi nhận thăm khám");
+      console.error(err);
+    }
   };
 
-  const handleTreatmentSubmit = (e) => {
+  const handleTreatmentSubmit = async (e) => {
     e.preventDefault();
-    // Here you would typically send the data to your backend
-    console.log("Treatment plan for patient:", selectedPatient.name, treatmentPlan);
-    setShowTreatmentModal(false);
-    setTreatmentPlan({
-      nextInjection: "",
-      nextAppointment: "",
-      notes: ""
-    });
+    try {
+      // Lấy treatmentId của bệnh nhân
+      const treatmentRes = await axios.get(
+        `/api/treatments?customerId=${selectedPatient.id}`
+      );
+      const treatmentId = treatmentRes.data[0]?.id;
+      const payload = {
+        treatmentId,
+        doctorId: 2, // hoặc lấy từ localStorage
+        updateTime: new Date().toISOString(),
+        ...treatmentPlan,
+      };
+      const res = await axios.post("/api/treatment-updates", payload);
+      console.log("Cập nhật điều trị thành công:", res.data);
+      setShowTreatmentModal(false);
+      // Reload lại treatment plan
+      const reload = await axios.get(
+        `/api/treatment-updates/treatment/${treatmentId}`
+      );
+      setTreatmentPlans(reload.data);
+    } catch (err) {
+      setError("Lỗi khi cập nhật điều trị");
+      console.error(err);
+    }
   };
 
   const handlePrescriptionSubmit = (e) => {
@@ -82,16 +159,16 @@ const PatientList = () => {
     setPrescriptionData({
       patientId: "",
       treatmentService: "IUI",
-      startDate: new Date().toISOString().split('T')[0],
+      startDate: new Date().toISOString().split("T")[0],
       medicationProtocol: "",
-      doctorNotes: ""
+      doctorNotes: "",
     });
   };
 
   const renderPatientsTab = () => (
     <div className="tab-content">
       <h2>Danh sách bệnh nhân điều trị</h2>
-      
+
       {/* Filter Section */}
       <div className="filter-section">
         <div className="filter-group">
@@ -106,7 +183,7 @@ const PatientList = () => {
             <option value="IVF">IVF</option>
           </select>
         </div>
-        
+
         <div className="filter-group">
           <label htmlFor="date-filter">Lọc theo ngày khám:</label>
           <input
@@ -132,8 +209,9 @@ const PatientList = () => {
           <tr>
             <th>Avatar</th>
             <th>Họ tên bệnh nhân</th>
+            <th>Email</th>
             <th>Dịch vụ</th>
-            <th>Ngày khám</th>
+            <th>Ngày bắt đầu</th>
             <th>Trạng thái</th>
             <th>Thao tác</th>
           </tr>
@@ -141,19 +219,22 @@ const PatientList = () => {
         <tbody>
           {filteredPatients.map((patient) => (
             <tr key={patient.id}>
-            <td>
-                <img src={patient.avatar} alt="avatar" className="patient-avatar" />
-            </td>
-              <td>{patient.name}</td>
-              <td>{patient.service}</td>
-              <td>{new Date(patient.appointmentDate).toLocaleDateString('vi-VN')}</td>
               <td>
-                <span className={`status ${patient.status}`}>
-                  {patient.status === 'ongoing' && 'Đang điều trị'}
-                  {patient.status === 'success' && 'Thành công'}
-                  {patient.status === 'failed' && 'Thất bại'}
-                </span>
-            </td>
+                <img
+                  src={patient.avatar || "/logo192.png"}
+                  alt="avatar"
+                  className="patient-avatar"
+                />
+              </td>
+              <td>{patient.fullName}</td>
+              <td>{patient.email}</td>
+              <td>{patient.serviceName || "Chưa có"}</td>
+              <td>
+                {patient.startDate
+                  ? new Date(patient.startDate).toLocaleDateString("vi-VN")
+                  : "Chưa có"}
+              </td>
+              <td>{patient.status || "-"}</td>
               <td>
                 <div className="action-buttons">
                   <button
@@ -169,8 +250,8 @@ const PatientList = () => {
                     Cập nhật điều trị
                   </button>
                 </div>
-            </td>
-          </tr>
+              </td>
+            </tr>
           ))}
         </tbody>
       </table>
@@ -184,7 +265,9 @@ const PatientList = () => {
         {examinationRecords.map((record) => (
           <div key={record.id} className="record-card">
             <div className="record-header">
-              <h3>{record.patientName} - {record.service}</h3>
+              <h3>
+                {record.patientName} - {record.service}
+              </h3>
               <span className="record-date">{record.date}</span>
             </div>
             <div className="record-content">
@@ -217,11 +300,13 @@ const PatientList = () => {
         {treatmentPlans.map((plan) => (
           <div key={plan.id} className="plan-card">
             <div className="plan-header">
-              <h3>{plan.patientName} - {plan.service}</h3>
+              <h3>
+                {plan.patientName} - {plan.service}
+              </h3>
               <span className={`plan-status ${plan.status}`}>
-                {plan.status === 'ongoing' && 'Đang thực hiện'}
-                {plan.status === 'upcoming' && 'Sắp tới'}
-                {plan.status === 'completed' && 'Hoàn thành'}
+                {plan.status === "ongoing" && "Đang thực hiện"}
+                {plan.status === "upcoming" && "Sắp tới"}
+                {plan.status === "completed" && "Hoàn thành"}
               </span>
             </div>
             <div className="plan-content">
@@ -241,6 +326,9 @@ const PatientList = () => {
     </div>
   );
 
+  if (loading) return <div>Đang tải dữ liệu...</div>;
+  if (error) return <div style={{ color: "red" }}>{error}</div>;
+
   return (
     <>
       <DoctorNavbar />
@@ -248,22 +336,24 @@ const PatientList = () => {
         {/* Tab Navigation */}
         <div className="tab-navigation">
           <button
-            className={`tab-btn ${activeTab === 'patients' ? 'active' : ''}`}
-            onClick={() => setActiveTab('patients')}
+            className={`tab-btn ${activeTab === "patients" ? "active" : ""}`}
+            onClick={() => setActiveTab("patients")}
           >
             <i className="tab-icon">👥</i>
             Danh sách bệnh nhân
           </button>
           <button
-            className={`tab-btn ${activeTab === 'examinations' ? 'active' : ''}`}
-            onClick={() => setActiveTab('examinations')}
+            className={`tab-btn ${
+              activeTab === "examinations" ? "active" : ""
+            }`}
+            onClick={() => setActiveTab("examinations")}
           >
             <i className="tab-icon">📋</i>
             Hồ sơ thăm khám
           </button>
           <button
-            className={`tab-btn ${activeTab === 'treatments' ? 'active' : ''}`}
-            onClick={() => setActiveTab('treatments')}
+            className={`tab-btn ${activeTab === "treatments" ? "active" : ""}`}
+            onClick={() => setActiveTab("treatments")}
           >
             <i className="tab-icon">💊</i>
             Kế hoạch điều trị
@@ -271,16 +361,18 @@ const PatientList = () => {
         </div>
 
         {/* Tab Content */}
-        {activeTab === 'patients' && renderPatientsTab()}
-        {activeTab === 'examinations' && renderExaminationRecordsTab()}
-        {activeTab === 'treatments' && renderTreatmentPlansTab()}
+        {activeTab === "patients" && renderPatientsTab()}
+        {activeTab === "examinations" && renderExaminationRecordsTab()}
+        {activeTab === "treatments" && renderTreatmentPlansTab()}
 
         {/* Examination Modal */}
         {showExaminationModal && (
           <div className="modal-overlay">
             <div className="modal">
               <div className="modal-header">
-                <h3>Ghi nhận dữ liệu thăm khám - {selectedPatient?.name}</h3>
+                <h3>
+                  Ghi nhận dữ liệu thăm khám - {selectedPatient?.fullName}
+                </h3>
                 <button
                   className="close-btn"
                   onClick={() => setShowExaminationModal(false)}
@@ -294,7 +386,12 @@ const PatientList = () => {
                   <input
                     type="text"
                     value={examinationData.betaHCG}
-                    onChange={(e) => setExaminationData({...examinationData, betaHCG: e.target.value})}
+                    onChange={(e) =>
+                      setExaminationData({
+                        ...examinationData,
+                        betaHCG: e.target.value,
+                      })
+                    }
                     placeholder="Nhập kết quả Beta hCG"
                   />
                 </div>
@@ -302,7 +399,12 @@ const PatientList = () => {
                   <label>Kết quả xét nghiệm nội tiết:</label>
                   <textarea
                     value={examinationData.hormones}
-                    onChange={(e) => setExaminationData({...examinationData, hormones: e.target.value})}
+                    onChange={(e) =>
+                      setExaminationData({
+                        ...examinationData,
+                        hormones: e.target.value,
+                      })
+                    }
                     placeholder="Nhập kết quả xét nghiệm nội tiết"
                   />
                 </div>
@@ -310,7 +412,12 @@ const PatientList = () => {
                   <label>Chỉ số siêu âm:</label>
                   <textarea
                     value={examinationData.ultrasound}
-                    onChange={(e) => setExaminationData({...examinationData, ultrasound: e.target.value})}
+                    onChange={(e) =>
+                      setExaminationData({
+                        ...examinationData,
+                        ultrasound: e.target.value,
+                      })
+                    }
                     placeholder="Nhập chỉ số siêu âm"
                   />
                 </div>
@@ -318,7 +425,12 @@ const PatientList = () => {
                   <label>Phản ứng với thuốc:</label>
                   <textarea
                     value={examinationData.medicationReaction}
-                    onChange={(e) => setExaminationData({...examinationData, medicationReaction: e.target.value})}
+                    onChange={(e) =>
+                      setExaminationData({
+                        ...examinationData,
+                        medicationReaction: e.target.value,
+                      })
+                    }
                     placeholder="Nhập phản ứng với thuốc"
                   />
                 </div>
@@ -326,13 +438,24 @@ const PatientList = () => {
                   <label>Tiến triển lâm sàng:</label>
                   <textarea
                     value={examinationData.clinicalProgress}
-                    onChange={(e) => setExaminationData({...examinationData, clinicalProgress: e.target.value})}
+                    onChange={(e) =>
+                      setExaminationData({
+                        ...examinationData,
+                        clinicalProgress: e.target.value,
+                      })
+                    }
                     placeholder="Nhập tiến triển lâm sàng"
                   />
                 </div>
                 <div className="modal-actions">
-                  <button type="submit" className="btn btn-primary">Lưu dữ liệu</button>
-                  <button type="button" className="btn btn-secondary" onClick={() => setShowExaminationModal(false)}>
+                  <button type="submit" className="btn btn-primary">
+                    Lưu dữ liệu
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setShowExaminationModal(false)}
+                  >
                     Hủy
                   </button>
                 </div>
@@ -346,7 +469,9 @@ const PatientList = () => {
           <div className="modal-overlay">
             <div className="modal">
               <div className="modal-header">
-                <h3>Cập nhật kế hoạch điều trị - {selectedPatient?.name}</h3>
+                <h3>
+                  Cập nhật kế hoạch điều trị - {selectedPatient?.fullName}
+                </h3>
                 <button
                   className="close-btn"
                   onClick={() => setShowTreatmentModal(false)}
@@ -359,7 +484,12 @@ const PatientList = () => {
                   <label>Chỉ định mũi tiêm tiếp theo:</label>
                   <textarea
                     value={treatmentPlan.nextInjection}
-                    onChange={(e) => setTreatmentPlan({...treatmentPlan, nextInjection: e.target.value})}
+                    onChange={(e) =>
+                      setTreatmentPlan({
+                        ...treatmentPlan,
+                        nextInjection: e.target.value,
+                      })
+                    }
                     placeholder="Nhập chỉ định mũi tiêm tiếp theo"
                   />
                 </div>
@@ -368,20 +498,36 @@ const PatientList = () => {
                   <input
                     type="datetime-local"
                     value={treatmentPlan.nextAppointment}
-                    onChange={(e) => setTreatmentPlan({...treatmentPlan, nextAppointment: e.target.value})}
+                    onChange={(e) =>
+                      setTreatmentPlan({
+                        ...treatmentPlan,
+                        nextAppointment: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <div className="form-group">
                   <label>Ghi chú:</label>
                   <textarea
                     value={treatmentPlan.notes}
-                    onChange={(e) => setTreatmentPlan({...treatmentPlan, notes: e.target.value})}
+                    onChange={(e) =>
+                      setTreatmentPlan({
+                        ...treatmentPlan,
+                        notes: e.target.value,
+                      })
+                    }
                     placeholder="Nhập ghi chú bổ sung"
                   />
                 </div>
                 <div className="modal-actions">
-                  <button type="submit" className="btn btn-primary">Cập nhật kế hoạch</button>
-                  <button type="button" className="btn btn-secondary" onClick={() => setShowTreatmentModal(false)}>
+                  <button type="submit" className="btn btn-primary">
+                    Cập nhật kế hoạch
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setShowTreatmentModal(false)}
+                  >
                     Hủy
                   </button>
                 </div>
@@ -408,13 +554,18 @@ const PatientList = () => {
                   <label>Chọn bệnh nhân:</label>
                   <select
                     value={prescriptionData.patientId}
-                    onChange={(e) => setPrescriptionData({...prescriptionData, patientId: e.target.value})}
+                    onChange={(e) =>
+                      setPrescriptionData({
+                        ...prescriptionData,
+                        patientId: e.target.value,
+                      })
+                    }
                     required
                   >
                     <option value="">-- Chọn bệnh nhân --</option>
                     {patients.map((patient) => (
                       <option key={patient.id} value={patient.id}>
-                        {patient.name} - {patient.service}
+                        {patient.fullName} - {patient.email}
                       </option>
                     ))}
                   </select>
@@ -429,7 +580,12 @@ const PatientList = () => {
                         name="treatmentService"
                         value="IUI"
                         checked={prescriptionData.treatmentService === "IUI"}
-                        onChange={(e) => setPrescriptionData({...prescriptionData, treatmentService: e.target.value})}
+                        onChange={(e) =>
+                          setPrescriptionData({
+                            ...prescriptionData,
+                            treatmentService: e.target.value,
+                          })
+                        }
                       />
                       <span className="radio-text">IUI</span>
                     </label>
@@ -439,7 +595,12 @@ const PatientList = () => {
                         name="treatmentService"
                         value="IVF"
                         checked={prescriptionData.treatmentService === "IVF"}
-                        onChange={(e) => setPrescriptionData({...prescriptionData, treatmentService: e.target.value})}
+                        onChange={(e) =>
+                          setPrescriptionData({
+                            ...prescriptionData,
+                            treatmentService: e.target.value,
+                          })
+                        }
                       />
                       <span className="radio-text">IVF</span>
                     </label>
@@ -451,7 +612,12 @@ const PatientList = () => {
                   <input
                     type="date"
                     value={prescriptionData.startDate}
-                    onChange={(e) => setPrescriptionData({...prescriptionData, startDate: e.target.value})}
+                    onChange={(e) =>
+                      setPrescriptionData({
+                        ...prescriptionData,
+                        startDate: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
@@ -461,7 +627,12 @@ const PatientList = () => {
                   <input
                     type="text"
                     value={prescriptionData.medicationProtocol}
-                    onChange={(e) => setPrescriptionData({...prescriptionData, medicationProtocol: e.target.value})}
+                    onChange={(e) =>
+                      setPrescriptionData({
+                        ...prescriptionData,
+                        medicationProtocol: e.target.value,
+                      })
+                    }
                     placeholder="Ví dụ: Gonal-F 75IU/ngày"
                     required
                   />
@@ -471,7 +642,12 @@ const PatientList = () => {
                   <label>Ghi chú của bác sĩ:</label>
                   <textarea
                     value={prescriptionData.doctorNotes}
-                    onChange={(e) => setPrescriptionData({...prescriptionData, doctorNotes: e.target.value})}
+                    onChange={(e) =>
+                      setPrescriptionData({
+                        ...prescriptionData,
+                        doctorNotes: e.target.value,
+                      })
+                    }
                     placeholder="Nhận xét, lưu ý đặc biệt về bệnh nhân"
                     rows="4"
                   />
@@ -481,7 +657,11 @@ const PatientList = () => {
                   <button type="submit" className="btn btn-primary">
                     ✅ Xác nhận điều trị
                   </button>
-                  <button type="button" className="btn btn-secondary" onClick={() => setShowPrescriptionModal(false)}>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setShowPrescriptionModal(false)}
+                  >
                     Hủy
                   </button>
                 </div>
@@ -489,9 +669,9 @@ const PatientList = () => {
             </div>
           </div>
         )}
-    </div>
-  </>
-);
+      </div>
+    </>
+  );
 };
 
 export default PatientList;

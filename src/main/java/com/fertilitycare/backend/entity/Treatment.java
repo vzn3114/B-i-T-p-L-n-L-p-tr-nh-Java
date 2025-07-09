@@ -29,7 +29,7 @@ public class Treatment {
 
     @ManyToOne
     @JoinColumn(name = "doctor_id")
-    private User doctor; // Bác sĩ phụ trách (nếu có)
+    private User doctor; // Bác sĩ phụ trách 
 
     @ManyToOne
     @JoinColumn(name = "service_id")

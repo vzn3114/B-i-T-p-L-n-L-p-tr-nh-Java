@@ -27,4 +27,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Query("SELECT COUNT(a) FROM Appointment a WHERE a.status = :status")
     long countByStatus(@org.springframework.data.repository.query.Param("status") String status);
 
+    List<Appointment> findByDoctorId(Long doctorId);
 }

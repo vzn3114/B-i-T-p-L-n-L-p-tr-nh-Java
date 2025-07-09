@@ -183,7 +183,7 @@ const CustomerDashboard = () => {
 
         <button
           className="dashboard-btn"
-          onClick={() => navigate("/customer/timeline")}
+          onClick={() => navigate("/customer/notifications")}
         >
           Xem thông báo điều trị
         </button>

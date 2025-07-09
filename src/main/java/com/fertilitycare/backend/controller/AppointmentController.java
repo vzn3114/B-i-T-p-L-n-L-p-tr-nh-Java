@@ -48,7 +48,8 @@ public class AppointmentController {
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<Appointment> book(@RequestBody Appointment request,
             @AuthenticationPrincipal UserDetails userDetails) {
-        User customer = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        User customer = userRepo.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
         Appointment booked = appointmentService.create(request, customer);
         return ResponseEntity.ok(booked);
     }
@@ -56,16 +57,16 @@ public class AppointmentController {
     @GetMapping("/me")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<List<AppointmentDTO>> myAppointments(@AuthenticationPrincipal UserDetails userDetails) {
-        User customer = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        User customer = userRepo.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
         List<Appointment> appointments = appointmentService.getByCustomer(customer);
         List<AppointmentDTO> dtos = appointments.stream().map(appt -> new AppointmentDTO(
-            appt.getId(),
-            appt.getAppointmentTime() != null ? appt.getAppointmentTime().toString() : null,
-            appt.getService() != null ? appt.getService().getName() : "N/A",
-            appt.getAppointmentType(),
-            appt.getDoctor() != null ? appt.getDoctor().getFullName() : "N/A",
-            appt.getStatus()
-        )).collect(Collectors.toList());
+                appt.getId(),
+                appt.getAppointmentTime() != null ? appt.getAppointmentTime().toString() : null,
+                appt.getService() != null ? appt.getService().getName() : "N/A",
+                appt.getAppointmentType(),
+                appt.getDoctor() != null ? appt.getDoctor().getFullName() : "N/A",
+                appt.getStatus())).collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
 
@@ -73,7 +74,8 @@ public class AppointmentController {
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> cancel(@PathVariable Long id,
             @AuthenticationPrincipal UserDetails userDetails) {
-        User customer = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        User customer = userRepo.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
         appointmentService.cancel(id, customer);
         return ResponseEntity.ok().build();
     }
@@ -82,7 +84,8 @@ public class AppointmentController {
     @PreAuthorize("hasRole('DOCTOR')")
     public ResponseEntity<List<Appointment>> getMyAppointmentsAsDoctor(
             @AuthenticationPrincipal UserDetails userDetails) {
-        User doctor = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        User doctor = userRepo.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
         return ResponseEntity.ok(appointmentService.getByDoctor(doctor));
     }
 
@@ -91,7 +94,8 @@ public class AppointmentController {
     public ResponseEntity<Appointment> doctorUpdateStatus(@PathVariable Long id,
             @RequestBody StatusRequest request,
             @AuthenticationPrincipal UserDetails userDetails) {
-        User doctor = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        User doctor = userRepo.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
         Appointment updated = appointmentService.updateStatus(id, request.status(), doctor);
         return ResponseEntity.ok(updated);
     }
@@ -106,7 +110,8 @@ public class AppointmentController {
         return ResponseEntity.ok("Cập nhật trạng thái thành công");
     }
 
-    public record StatusRequest(String status) {}
+    public record StatusRequest(String status) {
+    }
 
     @GetMapping("/admin/statistics/status")
     @PreAuthorize("hasRole('ADMIN')")
@@ -126,7 +131,8 @@ public class AppointmentController {
             @PathVariable("appointmentId") Long appointmentId,
             @RequestBody Map<String, String> body,
             @AuthenticationPrincipal UserDetails userDetails) {
-        User doctor = userRepo.findByUsername(userDetails.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        User doctor = userRepo.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new RuntimeException("User not found"));
         String note = body.get("note");
         appointmentService.updateDoctorNote(appointmentId, note, doctor);
         return ResponseEntity.ok("Cập nhật kết quả khám thành công");
@@ -136,5 +142,19 @@ public class AppointmentController {
     @PreAuthorize("hasRole('ADMIN')")
     public AppointmentStatsDTO getStats() {
         return appointmentService.getAppointmentStats();
+    }
+
+    @GetMapping("/doctor/{doctorId}/patients")
+    @PreAuthorize("hasRole('DOCTOR')")
+    public ResponseEntity<List<AppointmentDTO>> getPatientsByDoctor(@PathVariable Long doctorId) {
+        List<Appointment> appointments = appointmentService.getByDoctorId(doctorId);
+        List<AppointmentDTO> dtos = appointments.stream().map(appt -> new AppointmentDTO(
+                appt.getId(),
+                appt.getCustomer() != null ? appt.getCustomer().getFullName() : "N/A",
+                appt.getCustomer() != null ? appt.getCustomer().getEmail() : "N/A",
+                appt.getService() != null ? appt.getService().getName() : "N/A",
+                appt.getAppointmentTime() != null ? appt.getAppointmentTime().toString() : null,
+                appt.getStatus())).toList();
+        return ResponseEntity.ok(dtos);
     }
 }
