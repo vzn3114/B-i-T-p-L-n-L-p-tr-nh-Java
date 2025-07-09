@@ -1,11 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "../../static/assets/Contact.css";
 
-
 export default function Contact() {
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const username = localStorage.getItem("username");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch("/api/appointment-requests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token ? `Bearer ${token}` : undefined
+        },
+        body: JSON.stringify({ fullName, phone, address })
+      });
+      if (res.ok) {
+        setMessage("Đăng ký thành công! Chúng tôi sẽ liên hệ với bạn sớm nhất.");
+        setFullName(""); setPhone(""); setAddress("");
+      } else {
+        const err = await res.text();
+        console.log("Lỗi backend:", err);
+        setMessage("Vui lòng đăng nhập tài khoản để thực hiện! " + err);
+      }
+    } catch (err) {
+      setMessage("Lỗi kết nối máy chủ!");
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="contact-container contact-bg">
-      <h1 className="contact-title">Liên hệ với Bệnh viện Hiếm muộn Care</h1>
+      <h1 className="contact-title">Đặt lịch khám tại Bệnh viện Hiếm muộn Care</h1>
       <div className="contact-info-grid">
         <div className="contact-info-block">
           <h2>🏥 Trụ sở chính</h2>
@@ -20,14 +55,20 @@ export default function Contact() {
         </div>
       </div>
       <div className="contact-form-map">
-        <form className="contact-form">
-          <div className="contact-info-title">Gửi liên hệ nhanh</div>
-          <input type="text" placeholder="Họ và tên" required />
-          <input type="email" placeholder="Email" required />
-          <input type="tel" placeholder="Số điện thoại" required />
-          <textarea placeholder="Nội dung liên hệ" rows={4} required></textarea>
-          <button type="submit">Gửi liên hệ</button>
-        </form>
+        {username ? (
+          <form className="contact-form" onSubmit={handleSubmit}>
+            <div className="contact-info-title">Đăng ký lịch khám</div>
+            <input type="text" placeholder="Họ và tên" required value={fullName} onChange={e => setFullName(e.target.value)} />
+            <input type="tel" placeholder="Số điện thoại" required value={phone} onChange={e => setPhone(e.target.value)} />
+            <input type="text" placeholder="Địa chỉ" required value={address} onChange={e => setAddress(e.target.value)} />
+            <button type="submit" disabled={loading}>{loading ? "Đang gửi..." : "Đăng ký ngay"}</button>
+            {message && <div style={{marginTop:8, color: message.startsWith('Đăng ký thành công') ? 'green' : 'red'}}>{message}</div>}
+          </form>
+        ) : (
+          <div style={{color: 'red', fontWeight: 500, padding: 16, background: '#fff', borderRadius: 8, textAlign: 'center'}}>
+            Bạn cần <a href="/guest/login">đăng nhập</a> hoặc <a href="/guest/register">đăng ký tài khoản</a> để sử dụng chức năng đặt lịch khám.
+          </div>
+        )}
       </div>
       <div className="contact-map-box">
         <iframe

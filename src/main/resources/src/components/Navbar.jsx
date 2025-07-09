@@ -93,7 +93,7 @@ const Navbar = () => {
           )}
         </li>
         <li>
-          <Link to="/contact">Liên hệ</Link>
+          <Link to="/contact">Đặt lịch khám</Link>
         </li>
         {!isLoggedIn ? (
           <>

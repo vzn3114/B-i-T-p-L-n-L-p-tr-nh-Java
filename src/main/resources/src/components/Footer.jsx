@@ -29,19 +29,16 @@ const Footer = () => {
         {/* Cột 2: Đặt lịch khám */}
         <div className="footer-col">
           <div className="footer-section">
-            <div className="footer-title">Đặt lịch khám</div>
+            <div className="footer-title">Liên hệ với Bệnh viện Hiếm muộn Care</div>
             <div className="footer-note">
-              <i>Đặt lịch khám để không mất thời gian chờ*</i> Mọi thông tin của khách hàng sẽ được bảo mật tuyệt đối.
+              <i>Gửi liên hệ nhanh*</i> Mọi thông tin của khách hàng sẽ được bảo mật tuyệt đối.
             </div>
             <form className="footer-form">
-              <input type="text" placeholder="Họ tên" />
-              <input type="text" placeholder="Điện thoại" />
-              <input type="text" placeholder="Địa chỉ" />
-              <div>
-                <label><input type="checkbox" /> Khám trực tiếp</label>
-                <label><input type="checkbox" /> Khám Online</label>
-              </div>
-              <button type="submit">ĐĂNG KÝ NGAY</button>
+              <input type="text" placeholder="Họ và tên" required />
+              <input type="email" placeholder="Email" required />
+              <input type="tel" placeholder="Số điện thoại" required />
+              <textarea placeholder="Nội dung liên hệ" rows={4} required></textarea>
+              <button type="submit">Gửi liên hệ</button>
             </form>
           </div>
           <div className="footer-section">

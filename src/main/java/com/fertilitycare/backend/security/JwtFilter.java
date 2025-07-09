@@ -4,7 +4,10 @@ package com.fertilitycare.backend.security;
      import java.util.List;
      import java.util.stream.Collectors;
 
+     import org.slf4j.Logger;
+     import org.slf4j.LoggerFactory;
      import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+     import org.springframework.security.core.authority.SimpleGrantedAuthority;
      import org.springframework.security.core.context.SecurityContextHolder;
      import org.springframework.security.core.userdetails.UserDetails;
      import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -17,14 +20,15 @@ package com.fertilitycare.backend.security;
      import jakarta.servlet.ServletException;
      import jakarta.servlet.http.HttpServletRequest;
      import jakarta.servlet.http.HttpServletResponse;
-     import org.springframework.security.core.authority.SimpleGrantedAuthority;
-     import org.slf4j.Logger;
-     import org.slf4j.LoggerFactory;
 
      @Component
      public class JwtFilter extends OncePerRequestFilter {
 
          private static final Logger logger = LoggerFactory.getLogger(JwtFilter.class);
+
+    public static Logger getLogger() {
+        return logger;
+    }
 
          private final JwtUtils jwtUtils;
          private final CustomUserDetailsService userDetailsService;

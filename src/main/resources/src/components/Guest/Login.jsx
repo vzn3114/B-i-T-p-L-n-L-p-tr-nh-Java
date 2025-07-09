@@ -25,6 +25,8 @@ function Login() {
       }
       const data = JSON.parse(text);
       localStorage.setItem("token", data.token);
+      // Lưu username vào localStorage
+      localStorage.setItem("username", username);
 
       // Nếu backend trả về "role" là chuỗi
       let role = data.role;
@@ -52,7 +54,7 @@ function Login() {
           window.location.href = "/doctor/patients";
           break;
         case "MANAGER":
-          window.location.href = "/manager/dashboard";
+          window.location.href = "/manager/services";
           break;
         default:
           window.location.href = "/";

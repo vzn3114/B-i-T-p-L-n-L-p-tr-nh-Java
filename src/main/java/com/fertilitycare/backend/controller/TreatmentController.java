@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -23,14 +22,11 @@ import com.fertilitycare.backend.entity.User;
 import com.fertilitycare.backend.repository.UserRepository;
 import com.fertilitycare.backend.service.TreatmentService;
 
-import ch.qos.logback.classic.Logger;
-
 @RestController
 @RequestMapping("/api/treatments")
 @CrossOrigin(origins = "http://localhost:3000")
 public class TreatmentController {
 
-    private static final Logger logger = (Logger) LoggerFactory.getLogger(TreatmentController.class);
     private final TreatmentService treatmentService;
     private final UserRepository userRepo;
 

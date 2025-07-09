@@ -141,3 +141,15 @@ INSERT INTO users VALUES
 (5, 'doctor2', '$2a$12$FDfu.a6o5xp/gI79nq2MzuUV87FBfj3hW2KWpPBsbmwdgK0FrETgi', 'Dr. A', 'doctor2@fertilitycare.com'),
 (6, 'doctor3', '$2a$12$FDfu.a6o5xp/gI79nq2MzuUV87FBfj3hW2KWpPBsbmwdgK0FrETgi', 'Dr. B', 'doctor3@fertilitycare.com'),
 (7, 'doctor4', '$2a$12$FDfu.a6o5xp/gI79nq2MzuUV87FBfj3hW2KWpPBsbmwdgK0FrETgi', 'Dr. C', 'doctor4@fertilitycare.com');
+
+DROP TABLE IF EXISTS appointment_requests;
+
+CREATE TABLE appointment_requests (
+  id BIGINT NOT NULL AUTO_INCREMENT,
+  full_name VARCHAR(255) NOT NULL,
+  phone VARCHAR(20) NOT NULL,
+  address TEXT,
+  username VARCHAR(255), -- nếu người dùng đã đăng nhập thì lưu tên tài khoản
+  submitted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+);

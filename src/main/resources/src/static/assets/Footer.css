@@ -80,26 +80,37 @@
   display: block;
   margin-bottom: 8px;
 }
-.footer-form input[type="text"] {
+.footer-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
   width: 100%;
-  margin-bottom: 7px;
-  padding: 7px;
+}
+.footer-form input,
+.footer-form textarea {
+  width: 350px;
+  max-width: 100%;
+  margin-bottom: 10px;
+  padding: 8px 12px;
   border: none;
-  border-radius: 3px;
+  border-radius: 4px;
   background: #e3f2fd;
   color: #222;
+  font-size: 15px;
+  box-sizing: border-box;
 }
-.footer-form label {
-  margin-right: 10px;
-  font-size: 14px;
+.footer-form textarea {
+  resize: vertical;
+  min-height: 60px;
 }
 .footer-form button {
-  width: 100%;
+  width: 350px;
+  max-width: 100%;
   background: #fff;
   color: #1976d2;
   border: none;
   padding: 10px 0;
-  border-radius: 3px;
+  border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
   margin-top: 7px;
@@ -143,10 +154,21 @@
     padding: 0 10px;
     gap: 18px;
   }
-  .footer-section {
+  .footer-col {
     min-width: 100%;
     margin-bottom: 25px;
     padding: 0;
+  }
+  .footer-main > .footer-col:nth-child(2) {
+    align-items: flex-start;
+  }
+  .footer-form,
+  .footer-form input,
+  .footer-form textarea,
+  .footer-form button {
+    width: 100%;
+    max-width: 100%;
+    align-items: stretch;
   }
   .footer-bottom {
     flex-direction: column;

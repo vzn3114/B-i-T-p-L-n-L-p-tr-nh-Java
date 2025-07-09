@@ -49,6 +49,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/services/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/services/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/api/appointments/**").hasAnyRole("DOCTOR", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/api/appointment-requests").authenticated()
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider())
