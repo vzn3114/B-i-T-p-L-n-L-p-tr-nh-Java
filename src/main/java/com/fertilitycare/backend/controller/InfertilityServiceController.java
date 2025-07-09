@@ -28,30 +28,30 @@ public class InfertilityServiceController {
         this.service = service;
     }
 
-    // Cho phép ADMIN, CUSTOMER, DOCTOR xem danh sách dịch vụ
+    // Cho phép ADMIN, CUSTOMER, DOCTOR, MANAGER xem danh sách dịch vụ
     @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'DOCTOR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'CUSTOMER', 'DOCTOR', 'MANAGER')")
     public List<InfertilityService> getAllServices() {
         return service.getAll();
     }
 
-    // Chỉ ADMIN được phép tạo dịch vụ mới
+    // Cho phép ADMIN, MANAGER tạo dịch vụ mới
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public InfertilityService createService(@RequestBody InfertilityService request) {
         return service.create(request);
     }
 
-    // Chỉ ADMIN được phép cập nhật dịch vụ
+    // Cho phép ADMIN, MANAGER cập nhật dịch vụ
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<InfertilityService> update(@PathVariable Long id, @RequestBody InfertilityService updated) {
         return ResponseEntity.ok(service.update(id, updated));
     }
 
-    // Chỉ ADMIN được phép xóa dịch vụ
+    // Cho phép ADMIN, MANAGER xóa dịch vụ
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     public ResponseEntity<?> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.ok().build();

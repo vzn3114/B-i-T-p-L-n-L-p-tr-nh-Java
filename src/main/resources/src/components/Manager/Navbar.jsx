@@ -14,12 +14,7 @@ const ManagerNavbar = () => (
       <li>
         <Link to="/manager/doctors">Quản lý bác sĩ</Link>
       </li>
-      <li>
-        <Link to="/manager/feedbacks">Quản lý đánh giá</Link>
-      </li>
-      <li>
-        <Link to="/">Trang chủ</Link>
-      </li>
+
       <li>
         <Link to="/login">Đăng xuất</Link>
       </li>

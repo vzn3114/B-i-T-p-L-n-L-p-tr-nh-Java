@@ -83,7 +83,7 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         if (!userService.existsById(id)) {
@@ -115,10 +115,35 @@ public class UserController {
         return ResponseEntity.ok(userService.searchByFullName(q));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
     @GetMapping("/filter/role")
     public ResponseEntity<List<User>> filterByRole(@RequestParam String role) {
         return ResponseEntity.ok(userService.filterByRole(role));
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PostMapping("/register/doctor")
+    public ResponseEntity<?> registerDoctor(@RequestBody User user) {
+        Optional<User> userByUsername = userRepository.findByUsername(user.getUsername());
+        if (userByUsername.isPresent()) {
+            return ResponseEntity.badRequest().body("Username đã tồn tại!");
+        }
+        Optional<User> userByEmail = userRepository.findByEmail(user.getEmail());
+        if (userByEmail.isPresent()) {
+            return ResponseEntity.badRequest().body("Email đã tồn tại!");
+        }
+        userService.registerUser(user, "DOCTOR");
+        return ResponseEntity.ok("Đăng ký thành công!");
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User user) {
+        if (!userService.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        userService.updateUser(id, user);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/doctor/{doctorId}/customers")
